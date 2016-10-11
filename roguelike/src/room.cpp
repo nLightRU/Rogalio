@@ -28,9 +28,9 @@ bool Room::touching(Room b)
 	{
 		if (this->_y % 2 == 0)
 		{
-			a_l_b = sqrt( pow(_x - _x / 2 + 1, 2) + pow(_y - _y / 2 + 1, 2) );
-			a_l_t = sqrt( pow(_x - _x/2 +1, 2) + pow(_y + _y / 2 + 1, 2) );
-			a_r_b = sqrt(pow(_x - _x / 2 + 1, 2) + pow(_y + _y / 2 + 1, 2));
+			a_l_b = sqrt( pow(_x - _width / 2 + 1, 2) + pow(_y - _height / 2 + 1, 2) );
+			a_l_t = sqrt( pow(_x - _width/2 +1, 2) + pow(_y + _height / 2 + 1, 2) );
+			a_r_b = sqrt(pow(_x - _width / 2 + 1, 2) + pow(_y + _height / 2 + 1, 2));
 		}
 	}
 
