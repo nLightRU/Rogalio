@@ -142,6 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\room.cpp" />
+    <ClCompile Include="src\floor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\floor.h" />
+    <ClInclude Include="src\room.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
