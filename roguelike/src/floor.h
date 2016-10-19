@@ -8,7 +8,7 @@ private:
 	std::vector<Room> _rooms;
 	int _number;
 	char _flat[55][150];
-	int _height = 55, _width = 150; 
+	int _height = 55, _width = 140; 
 public: 
 	Floor();
 	Floor(int n);
