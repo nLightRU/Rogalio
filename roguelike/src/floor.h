@@ -20,6 +20,7 @@ private:
 
 
 public: 
+
 	Floor();
 	Floor(int number, int roomsCount, std::string style);
 

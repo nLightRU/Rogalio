@@ -39,13 +39,13 @@ Room::Room(int x, int y, int width, int height)
 	_bottom = y + height;
 }
 
-bool Room::touching(Room b)
+bool Room::touches(Room b)
 {
 	return !(_left > b.getR() || _right < b.getL() || _top > b.getB() || _bottom < b.getT());
 }
 
-void Room::shift(int x, int y)
+void Room::shift(int dx, int dy)
 {
-	_x += x;
-	_y -= y;
+	_x += dx;
+	_y += dy;
 }

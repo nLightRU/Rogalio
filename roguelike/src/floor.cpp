@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 
 Floor::Floor() 
 {
@@ -19,24 +20,25 @@ Floor::Floor(int number, int roomsCount, std::string style)
 
 void Floor::GenerateRooms(int numberOfRooms) 
 {
+	srand(time(NULL));
 	int w, h, x, y;
 	for (int i = 0; i < numberOfRooms; i++)
 	{
-		x = rand() % (75 - 65 + 1) + 65;
-		y = rand() % (20 - 17 + 1) + 17;
-		w = rand() % (30 - 10 + 1) + 10;
-		h = rand() % (20 - 10 + 1) + 10;
+		x = rand() % (90 - 68 + 1) + 68;
+		y = rand() % (30 - 20 + 1) + 5;
+		w = rand() % (20 - 5 + 1) + 5;
+		h = rand() % (20 - 5 + 1) + 5;
 
 		_rooms.push_back(Room(x, y, w, h));
 	}
 }
 
-void Floor::SeparateRooms() 
+void Floor::SeparateRooms()
 {
 
 }
 
-void Floor::AddLoot() 
+void Floor::AddLoot()
 {
 
 }

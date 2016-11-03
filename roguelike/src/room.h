@@ -23,7 +23,7 @@ public:
 	int getT() { return _top; }
 	int getB() { return _bottom; }
 
-	bool touching(Room b);
-	void shift(int x, int y);
+	bool touches(Room b);
+	void shift(int dx, int dy);
 
 };
