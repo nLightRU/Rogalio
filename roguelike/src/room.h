@@ -3,9 +3,11 @@
 
 class Room 
 {
+
 private: 
 	// x, y - left bottom corner coordinates
 	int _x, _y, _height, _width;
+	int _left, _right, _top, _bottom;
 
 public: 
 	Room();
@@ -15,13 +17,13 @@ public:
 	int getH() { return _height; }
 	int getX() { return _x; }
 	int getY() { return _y; }
-	int getCenX() { return _x + _width / 2; }
-	int getCenY() { return _y + _height / 2; }
 
-	void setHeight(int height) { _height = height; }
-	void setWidth(int width) { _width = width; }
+	int getL() { return _left; }
+	int getR() { return _right; }
+	int getT() { return _top; }
+	int getB() { return _bottom; }
 
 	bool touching(Room b);
-	
+	void shift(int x, int y);
 
 };

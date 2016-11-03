@@ -1,4 +1,5 @@
-﻿  floor.cpp
-d:\dev\roguelike\roguelike\src\floor.cpp(23): warning C4018: <: несоответствие типов со знаком и без знака
+﻿  main.cpp
+d:\dev\roguelike\roguelike\src\main.cpp(16): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+d:\dev\roguelike\roguelike\src\main.cpp(32): warning C4018: <: несоответствие типов со знаком и без знака
   roguelike.vcxproj -> D:\dev\roguelike\Debug\roguelike.exe
   roguelike.vcxproj -> D:\dev\roguelike\Debug\roguelike.pdb (Full PDB)

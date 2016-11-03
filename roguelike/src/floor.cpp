@@ -1,44 +1,80 @@
 #include "floor.h"
 #include <math.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 
-Floor::Floor(int n)
+Floor::Floor() 
 {
-	_number = n;
-	int w, h, x, y;
-	for (int i = 0; i < 15; i++)
-	{
-		w = rand() % (15 - 5 + 1) + 5;
-		h = w;
+	std::cout << "Calling usual constructor for Floor" << std::endl;
+}
 
-		x = 50 + rand() % 20 + 1;
-		y = 28 + rand() % 15 + 1;
+Floor::Floor(int number, int roomsCount, std::string style)
+{
+	_number = number;
+	GenerateRooms(roomsCount);
+	SeparateRooms();
+	AddLoot();
+}
+
+void Floor::GenerateRooms(int numberOfRooms) 
+{
+	int w, h, x, y;
+	for (int i = 0; i < numberOfRooms; i++)
+	{
+		x = rand() % (75 - 65 + 1) + 65;
+		y = rand() % (20 - 17 + 1) + 17;
+		w = rand() % (30 - 10 + 1) + 10;
+		h = rand() % (20 - 10 + 1) + 10;
 
 		_rooms.push_back(Room(x, y, w, h));
 	}
+}
 
-	for (int i = 0; i < 55; i++)
-		for (int j = 0; j < 150; j++)
-			_flat[i][j] = '.';
+void Floor::SeparateRooms() 
+{
 
-	for (int i = 0; i < _rooms.size(); i++) 
-		_flat[_rooms[i].getY()][_rooms[i].getX()] = 'x';
+}
 
-	/*
-	for (unsigned int i = 0; i < _rooms.size(); i++) 
+void Floor::AddLoot() 
+{
+
+}
+
+void Floor::AddEnemies() 
+{
+
+}
+
+void Floor::toFile() 
+{
+	for (int y = 0; y < _height; y++)
+		for (int x = 0; x < _width; x++)
+			_flat[y][x] = '.';
+		
+	for (int i = 0; i < _rooms.size(); i++)
 	{
-		// top and bottom walls
-		for (int j = 0; j <= _rooms[i].getW(); j++)
+		// top and bot
+		for (int x = 0; x <= _rooms[i].getW(); x++)
 		{
-			_flat[_height - _rooms[i].getY() - _rooms[i].getH()][_rooms[i].getX() + j] = '#';
-			_flat[_height - _rooms[i].getY()][_rooms[i].getX() + j] = '#';
+			_flat[_rooms[i].getY()][_rooms[i].getX() + x] = '#';
+			_flat[_rooms[i].getY() + _rooms[i].getH()][_rooms[i].getX() + x] = '#';
 		}
 
-		//left and right walls
-		for (int j = 0; j <= _rooms[i].getH(); j++)
+		// left and right
+		for (int y = 0; y <= _rooms[i].getH(); y++)
 		{
-			_flat[_height - _rooms[i].getY() - _rooms[i].getH() + j][_rooms[i].getX() + _rooms[i].getW()] = '#';
-			_flat[_height - _rooms[i].getY() - _rooms[i].getH() + j][_rooms[i].getX()] = '#';
+			_flat[_rooms[i].getY() + y][_rooms[i].getX()] = '#';
+			_flat[_rooms[i].getY() + y][_rooms[i].getX() + _rooms[i].getW()] = '#';
 		}
-	}*/
+	}
 
+
+	std::ofstream map_f("map.txt");
+	for (int y = 0; y < _height; y++)
+	{
+		for (int x = 0; x < _width; x++)
+			map_f << _flat[y][x];
+		map_f << std::endl;
+	}
 }
