@@ -1,5 +1,8 @@
-roguelike.tlog/
-
 roguelike.VC.VC.opendb
 
 map.txt
+
+roguelike/Debug/
+roguelike\*.vcxproj
+
+Debug/
