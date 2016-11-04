@@ -10,19 +10,21 @@ private:
 	std::string _style; 
 	int _number;
 
-	char _flat[48][155];
-	int _height = 48, _width = 155;
+	const int _height = 56, _width = 175;
+
+	char _flat[56][175];
 	
 	void GenerateRooms(int numberOfRooms);
-	void SeparateRooms();
 	void AddLoot();
 	void AddEnemies();
 
+	void AddRooms();
 
 public: 
+	void SeparateRooms();
 
 	Floor();
-	Floor(int number, int roomsCount, std::string style);
+	Floor(int number, int numberOfRooms, std::string style);
 
 	int getNumber() { return _number; }
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
@@ -31,5 +33,5 @@ public:
 	Room getRoom(int i) { return _rooms[i]; }
 	std::string getStyle() { return _style; }
 
-	void toFile();
+	void toFile(std::string FilePath);
 };
