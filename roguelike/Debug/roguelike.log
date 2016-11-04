@@ -1,9 +1,0 @@
-﻿  floor.cpp
-d:\dev\roguelike\roguelike\src\floor.cpp(25): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-d:\dev\roguelike\roguelike\src\floor.cpp(48): warning C4018: <: несоответствие типов со знаком и без знака
-d:\dev\roguelike\roguelike\src\floor.cpp(52): warning C4018: <: несоответствие типов со знаком и без знака
-d:\dev\roguelike\roguelike\src\floor.cpp(58): warning C4244: =: преобразование "double" в "int", возможна потеря данных
-d:\dev\roguelike\roguelike\src\floor.cpp(59): warning C4244: =: преобразование "double" в "int", возможна потеря данных
-d:\dev\roguelike\roguelike\src\floor.cpp(108): warning C4018: <: несоответствие типов со знаком и без знака
-  roguelike.vcxproj -> D:\dev\roguelike\Debug\roguelike.exe
-  roguelike.vcxproj -> D:\dev\roguelike\Debug\roguelike.pdb (Full PDB)

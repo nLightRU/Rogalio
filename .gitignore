@@ -2,8 +2,7 @@
 
 roguelike.VC.VC.opendb
 roguelike.VC
-
-map.txt
+*.txt
 
 roguelike/Debug/
 roguelike\*.vcxproj
