@@ -7,7 +7,11 @@
 
 Floor::Floor()
 {
-	std::cout << "Calling usual constructor for Floor" << std::endl;
+	_number = 0; 
+
+	for (int y = 0; y < _height; y++)
+		for (int x = 0; x < _width; x++)
+			_flat[y][x] = '.';
 }
 
 Floor::Floor(int number, int numberOfRooms, std::string style)
@@ -17,7 +21,7 @@ Floor::Floor(int number, int numberOfRooms, std::string style)
 	AddLoot();
 
 	// this funcs for ASCII graph
-	AddRooms();
+	PlaceRooms();
 }
 
 void Floor::GenerateRooms(int numberOfRooms)
@@ -43,30 +47,29 @@ void Floor::SeparateRooms()
 	while (touching)
 	{
 		touching = false;
-
-		for (int a = 0; a < _rooms.size(); a++)
-			for (int b = a + 1; b < _rooms.size(); b++)
+		for (unsigned int a = 0; a < _rooms.size(); a++)
+			for (unsigned int b = a + 1; b < _rooms.size(); b++)
 				if (_rooms[a].touches(_rooms[b]))
 				{
 					touching = true;
 
-					dx = fmin(_rooms[a].getR() - _rooms[b].getL() + 1, _rooms[a].getL() - _rooms[b].getR() - 1);
-					dy = fmin(_rooms[a].getB() - _rooms[b].getT() - 1, _rooms[a].getT() - _rooms[b].getB() + 1);
+					dx = fmin(abs(_rooms[a].getR() - _rooms[b].getL()) + 1, abs(_rooms[a].getL() - _rooms[b].getR()) + 1);
+					dy = fmin(abs(_rooms[a].getB() - _rooms[b].getT()) - 1, abs(_rooms[a].getT() - _rooms[b].getB()) - 1);
 
-					if (abs(dx) < abs(dy)) dy = 0;
+					if (dx < dy) dy = 0;
 					else dx = 0;
 
-					dxa = -dx/2;
-					dya = -dy/2;
+					dxa = -dx / 2;
+					dya = -dy / 2;
 
-					dxb = dx + dxa;
-					dyb = dy + dya;
+					dxb = dx / 2;
+					dyb = dy / 2;
 
 					_rooms[a].shift(dxa, dya);
 					_rooms[b].shift(dxb, dyb);
 				}
 	}
-
+	std::cout << "Done" << std::endl;
 }
 
 void Floor::AddLoot()
@@ -87,7 +90,7 @@ void Floor::toFile(std::string filePath)
 		for (int x = 0; x < _width; x++)
 			_flat[y][x] = '.';
 
-	AddRooms();
+	PlaceRooms();
 	for (int y = 0; y < _height; y++)
 	{
 		for (int x = 0; x < _width; x++)
@@ -96,7 +99,7 @@ void Floor::toFile(std::string filePath)
 	}
 }
 
-void Floor::AddRooms()
+void Floor::PlaceRooms()
 {
 	for (int i = 0; i < _rooms.size(); i++)
 	{

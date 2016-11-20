@@ -17,12 +17,10 @@ private:
 	void GenerateRooms(int numberOfRooms);
 	void AddLoot();
 	void AddEnemies();
+	void PlaceRooms();
 
-	void AddRooms();
 
 public: 
-	void SeparateRooms();
-
 	Floor();
 	Floor(int number, int numberOfRooms, std::string style);
 
@@ -33,5 +31,7 @@ public:
 	Room getRoom(int i) { return _rooms[i]; }
 	std::string getStyle() { return _style; }
 
+	void SeparateRooms();
+	void AddRoom(Room room) { _rooms.push_back(room); }
 	void toFile(std::string FilePath);
 };

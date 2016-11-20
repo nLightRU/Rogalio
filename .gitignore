@@ -8,3 +8,5 @@ roguelike/Debug/
 roguelike\*.vcxproj
 
 Debug/
+
+.vs/

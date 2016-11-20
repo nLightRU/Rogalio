@@ -35,8 +35,8 @@ Room::Room(int x, int y, int width, int height)
 
 	_left = x; 
 	_right = x + width;
-	_top = y; 
-	_bottom = y + height;
+	_top = y + height; 
+	_bottom = y;
 }
 
 bool Room::touches(Room b)
@@ -49,3 +49,4 @@ void Room::shift(int dx, int dy)
 	_x += dx;
 	_y += dy;
 }
+

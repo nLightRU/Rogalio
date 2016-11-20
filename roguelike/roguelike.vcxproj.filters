@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\dungeon\floor.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\room.cpp">
+    <ClCompile Include="src\dungeon\main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\floor.cpp">
+    <ClCompile Include="src\dungeon\room.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\room.h">
+    <ClInclude Include="src\dungeon\floor.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="src\floor.h">
+    <ClInclude Include="src\dungeon\room.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

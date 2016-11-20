@@ -142,13 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\room.cpp" />
-    <ClCompile Include="src\floor.cpp" />
+    <ClCompile Include="src\dungeon\main.cpp" />
+    <ClCompile Include="src\dungeon\room.cpp" />
+    <ClCompile Include="src\dungeon\floor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\floor.h" />
-    <ClInclude Include="src\room.h" />
+    <ClInclude Include="src\dungeon\floor.h" />
+    <ClInclude Include="src\dungeon\room.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
