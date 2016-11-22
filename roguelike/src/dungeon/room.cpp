@@ -41,7 +41,11 @@ Room::Room(int x, int y, int width, int height)
 
 bool Room::touches(Room b)
 {
-	return !(_left > b.getR() || _right < b.getL() || _top > b.getB() || _bottom < b.getT());
+	//bool insideA = _left > b._left && _right < b._right && _top > b._top && _bottom < b._bottom;
+	//bool insideB = _left < b._left && _right > b._right && _top < b._top && _bottom > b._bottom;
+	//if (!insideA) return true; 
+	//if (!insideB) return true; 
+	return !(_left > b._right || _right < b._left || _top > b._bottom || _bottom < b._top);
 }
 
 void Room::shift(int dx, int dy)

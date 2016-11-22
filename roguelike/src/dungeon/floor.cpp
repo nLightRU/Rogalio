@@ -18,6 +18,7 @@ Floor::Floor(int number, int numberOfRooms, std::string style)
 {
 	_number = number;
 	GenerateRooms(numberOfRooms);
+	SeparateRooms();
 	AddLoot();
 
 	// this funcs for ASCII graph
@@ -46,12 +47,12 @@ void Floor::SeparateRooms()
 
 	while (touching)
 	{
-		touching = false;
-		for (unsigned int a = 0; a < _rooms.size(); a++)
+		for (unsigned int a = 0; a < _rooms.size(); a++) 
+		{
+			std::cout << "Separate iteration " << a+1 << std::endl; 
 			for (unsigned int b = a + 1; b < _rooms.size(); b++)
 				if (_rooms[a].touches(_rooms[b]))
 				{
-					touching = true;
 
 					dx = fmin(abs(_rooms[a].getR() - _rooms[b].getL()) + 1, abs(_rooms[a].getL() - _rooms[b].getR()) + 1);
 					dy = fmin(abs(_rooms[a].getB() - _rooms[b].getT()) - 1, abs(_rooms[a].getT() - _rooms[b].getB()) - 1);
@@ -68,8 +69,9 @@ void Floor::SeparateRooms()
 					_rooms[a].shift(dxa, dya);
 					_rooms[b].shift(dxb, dyb);
 				}
+			}
+		touching = false;
 	}
-	std::cout << "Done" << std::endl;
 }
 
 void Floor::AddLoot()

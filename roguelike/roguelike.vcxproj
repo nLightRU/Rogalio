@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\dungeon\main.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\dungeon\room.cpp" />
     <ClCompile Include="src\dungeon\floor.cpp" />
   </ItemGroup>
