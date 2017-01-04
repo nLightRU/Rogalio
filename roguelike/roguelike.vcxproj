@@ -145,10 +145,12 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\dungeon\room.cpp" />
     <ClCompile Include="src\dungeon\floor.cpp" />
+    <ClCompile Include="src\math\vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dungeon\floor.h" />
     <ClInclude Include="src\dungeon\room.h" />
+    <ClInclude Include="src\math\vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

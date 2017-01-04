@@ -1,7 +1,9 @@
 #include "room.h"
-#include <math.h>
 #include <iostream>
 #include <ctime>
+#include <vector>
+#include <math.h>
+#include "../math/vec2.h"
 
 Room::Room()
 {
@@ -15,7 +17,7 @@ Room::Room()
 	h = rand() % (10 - 8 + 1) + 8;
 
 	_x = x;
-	_y = y; 
+	_y = y;
 	_width = w;
 	_height = h;
 
@@ -25,7 +27,7 @@ Room::Room()
 	_bottom = y + _height;
 }
 
-// x, y - coordinates of left bottom corner
+// x, y - coordinates of left top corner
 Room::Room(int x, int y, int width, int height)
 {
 	_height = height;
@@ -33,24 +35,43 @@ Room::Room(int x, int y, int width, int height)
 	_x = x;
 	_y = y;
 
-	_left = x; 
+	_left = x;
 	_right = x + width;
-	_top = y + height; 
-	_bottom = y;
+	_top = y;
+	_bottom = y + height;
 }
 
 bool Room::touches(Room b)
 {
-	//bool insideA = _left > b._left && _right < b._right && _top > b._top && _bottom < b._bottom;
-	//bool insideB = _left < b._left && _right > b._right && _top < b._top && _bottom > b._bottom;
-	//if (!insideA) return true; 
-	//if (!insideB) return true; 
-	return !(_left > b._right || _right < b._left || _top > b._bottom || _bottom < b._top);
+	return !(_left >= b._right ||
+			_right <= b._left || 
+			_top >= b._bottom || 
+			_bottom <= b._top);
 }
 
 void Room::shift(int dx, int dy)
 {
 	_x += dx;
-	_y += dy;
+	_y += dy; 
+
+	_left = _x;
+	_right = _x + _width;
+
+	_top = _y;
+	_bottom = _y + _height;
+}
+
+void Room::setX(int x) 
+{
+	_x = x;
+	_left = _x; 
+	_right = _x + _width;
+}
+
+void Room::setY(int y) 
+{
+	_y += y;
+	_top = _y;
+	_bottom = _y + _height;
 }
 

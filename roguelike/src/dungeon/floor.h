@@ -7,7 +7,6 @@ class Floor
 {
 private:
 	std::vector<Room> _rooms;
-	std::string _style; 
 	int _number;
 
 	const int _height = 56, _width = 175;
@@ -22,14 +21,13 @@ private:
 
 public: 
 	Floor();
-	Floor(int number, int numberOfRooms, std::string style);
+	Floor(int number, int numberOfRooms);
 
 	int getNumber() { return _number; }
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 	int getW() { return _width; }
 	int getH() { return _height; }
 	Room getRoom(int i) { return _rooms[i]; }
-	std::string getStyle() { return _style; }
 
 	void SeparateRooms();
 	void AddRoom(Room room) { _rooms.push_back(room); }
