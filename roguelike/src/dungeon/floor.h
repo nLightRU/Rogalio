@@ -7,29 +7,31 @@ class Floor
 {
 private:
 	std::vector<Room> _rooms;
+	std::vector<Room> _halls;
 	int _number;
 
-	const int _height = 56, _width = 175;
+	const int _height = 100, _width = 175;
 
-	char _flat[56][175];
+	char _flat[100][175];
 	
 	void GenerateRooms(int numberOfRooms);
+	void SeparateRooms();
+	void MadeGraph();
+	void ConnectRooms();
 	void AddLoot();
 	void AddEnemies();
+
 	void PlaceRooms();
+	void toFile(std::string FilePath);
 
-
+	char getFlatTile(int i, int j) { return _flat[i][j]; }
+	Room getRoom(int i) { return _rooms[i]; }
+	int getW() { return _width; }
+	int getH() { return _height; }
 public: 
 	Floor();
 	Floor(int number, int numberOfRooms);
+	Floor(int numberOfRooms, std::string filePath);
 
 	int getNumber() { return _number; }
-	char getFlatTile(int i, int j) { return _flat[i][j]; }
-	int getW() { return _width; }
-	int getH() { return _height; }
-	Room getRoom(int i) { return _rooms[i]; }
-
-	void SeparateRooms();
-	void AddRoom(Room room) { _rooms.push_back(room); }
-	void toFile(std::string FilePath);
 };

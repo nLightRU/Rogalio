@@ -25,6 +25,9 @@ Room::Room()
 	_right = x + _width;
 	_top = y;
 	_bottom = y + _height;
+
+	_joiningLeft = -1; 
+	_joiningRight = -1;
 }
 
 // x, y - coordinates of left top corner
@@ -39,6 +42,9 @@ Room::Room(int x, int y, int width, int height)
 	_right = x + width;
 	_top = y;
 	_bottom = y + height;
+	
+	_center.x = x / 2;
+	_center.y = y / 2;
 }
 
 bool Room::touches(Room b)
@@ -59,6 +65,9 @@ void Room::shift(int dx, int dy)
 
 	_top = _y;
 	_bottom = _y + _height;
+
+	_center.x = _x + _width / 2;
+	_center.y = _y + _height / 2;
 }
 
 void Room::setX(int x) 
@@ -66,6 +75,7 @@ void Room::setX(int x)
 	_x = x;
 	_left = _x; 
 	_right = _x + _width;
+	_center.x = x / 2;
 }
 
 void Room::setY(int y) 
@@ -73,5 +83,11 @@ void Room::setY(int y)
 	_y += y;
 	_top = _y;
 	_bottom = _y + _height;
+	_center.y = y / 2;
 }
 
+void Room::setJoinings(int right, int left) 
+{
+	_joiningRight = right;
+	_joiningLeft = left;
+}

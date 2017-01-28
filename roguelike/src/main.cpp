@@ -7,8 +7,7 @@
 
 int main()
 {
-
-	Floor floor(1, 10);
+	Floor floor(50, "rooms.txt");
 
 	system("PAUSE");
 	return 0;
