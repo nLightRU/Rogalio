@@ -16,3 +16,9 @@ int vec2::squareDistance(vec2 point)
 {
 	return pow(point.x - x, 2) + pow(point.y - y, 2);
 }
+
+void vec2::shift(int dx, int dy)
+{
+	this->x += dx;
+	this->y += dy;
+}
