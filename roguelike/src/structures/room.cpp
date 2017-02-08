@@ -114,8 +114,9 @@ int Room::countDistance(Room b)
 
 bool Room::includePoint(vec2 point)
 {
-	return point.x > _left &&
+	bool first = point.x > _left &&
 		point.x < _right &&
 		point.y < _bottom &&
 		point.y > _top;
+	return first;
 }

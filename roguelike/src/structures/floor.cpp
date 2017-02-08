@@ -29,6 +29,7 @@ Floor::Floor(int numberOfRooms, std::string filePath)
 	GenerateRooms(numberOfRooms);
 	SeparateRooms();
 	MakeGraph();
+	MakeConnections();
 	PlaceAll();
 	toFile(filePath);
 }
@@ -184,9 +185,9 @@ bool Floor::isPointInAnyRoom(vec2 point)
 	return false;
 }
 
-bool Floor::checkPointIsADoor(vec2 point) 
+bool Floor::checkPointIsADoor(vec2 point)
 {
-	for (int i = 0; i < _halls.size(); i++) 
+	for (int i = 0; i < _halls.size(); i++)
 	{
 		if (point.x > _rooms[i].getL() && point.x < _rooms[i].getR())
 			if (point.y == _rooms[i].getB() || point.y == _rooms[i].getT())
@@ -231,51 +232,203 @@ void Floor::toFile(std::string filePath)
 	}
 }
 
-void Floor::placePoint(vec2 point, char symbol) 
+void Floor::placePoint(vec2 point, char symbol)
 {
 	_flat[point.y][point.x] = symbol;
 }
 
-//void Floor::placeVerticalCorridor() {}
-//void Floor::placeHorizontalCorridor() {}
+void Floor::placePoint(int x, int y, char symbol)
+{
+	_flat[y][x] = symbol;
+}
+
+void Floor::MakeConnections()
+{
+	std::cout << std::endl << "---MAKING CONNECTIONS---" << std::endl;
+	vec2 point, end;
+	vec2 start;
+	int indexOfJoining;
+
+	for (int i = 0; i < _halls.size(); i++)
+	{
+		start = _halls[i].getCenter();
+		std::cout << "HALL " << i + 1 << ": ";
+		point = _halls[i].getCenter();
+		indexOfJoining = _halls[i].getLeftJoin();
+		end = _halls[indexOfJoining].getCenter();
+
+		std::cout << "LEFT X, ";
+		while (point.x != end.x)
+		{
+			if (isPointInAnyRoom(point))
+			{
+				point.x += point.x < end.x ? 1 : -1;
+				includeRoomWithPoint(point);
+				continue;
+			}
+			_ways.push_back(point);
+			_connections.push_back(vec2(point.x, point.y + 1));
+			_connections.push_back(vec2(point.x, point.y - 1));
+			point.x += point.x < end.x ? 1 : -1;
+		}
+
+		//corner
+		if (!isPointInAnyRoom(point)) {
+			if (start.x > end.x)
+				if (start.y > end.y)
+				{
+					_connections.push_back(vec2(point.x, point.y + 1));
+					_connections.push_back(vec2(point.x - 1, point.y + 1));
+					//_ways.push_back(vec2(point.x + 1, point.y));
+					_ways.push_back(vec2(point.x, point.y - 1));
+				}
+				else
+				{
+					_ways.push_back(vec2(point.x, point.y - 1));
+					_ways.push_back(vec2(point.x - 1, point.y - 1));
+					//_ways.push_back(vec2(point.x - 1, point.y));
+					_ways.push_back(vec2(point.x, point.y + 1));
+				}
+			else
+				if (start.y > end.y)
+				{
+					_connections.push_back(vec2(point.x, point.y + 1));
+					_connections.push_back(vec2(point.x + 1, point.y + 1));
+					//_ways.push_back(vec2(point.x -1, point.y));
+					_ways.push_back(vec2(point.x, point.y - 1));
+				}
+				else
+				{
+					_connections.push_back(vec2(point.x, point.y - 1));
+					_connections.push_back(vec2(point.x + 1, point.y - 1));
+					//_ways.push_back(vec2(point.x + 1, point.y));
+					_ways.push_back(vec2(point.x, point.y + 1));
+				}
+		}
+
+		std::cout << "LEFT Y, ";
+		while (point.y != end.y)
+		{
+			if (isPointInAnyRoom(point))
+			{
+				point.y += point.y < end.y ? 1 : -1;
+				includeRoomWithPoint(point);
+				continue;
+			}
+			_ways.push_back(point);
+			_connections.push_back(vec2(point.x + 1, point.y));
+			_connections.push_back(vec2(point.x - 1, point.y));
+			point.y += point.y < end.y ? 1 : -1;
+		}
+
+		point = _halls[i].getCenter();
+		indexOfJoining = _halls[i].getRightJoin();
+		end = _halls[indexOfJoining].getCenter();
+
+		std::cout << "RIGHT X, ";
+		while (point.x != end.x)
+		{
+			if (isPointInAnyRoom(point))
+			{
+				point.x += point.x < end.x ? 1 : -1;
+				includeRoomWithPoint(point);
+				continue;
+			}
+			_ways.push_back(point);
+			_connections.push_back(vec2(point.x, point.y + 1));
+			_connections.push_back(vec2(point.x, point.y - 1));
+			point.x += point.x < end.x ? 1 : -1;
+		}
+
+		//corner
+		if (!isPointInAnyRoom(point)) {
+			if (start.x > end.x)
+				if (start.y > end.y)
+				{
+					_connections.push_back(vec2(point.x, point.y + 1));
+					_connections.push_back(vec2(point.x - 1, point.y + 1));
+					//_ways.push_back(vec2(point.x + 1, point.y));
+					_ways.push_back(vec2(point.x, point.y - 1));
+				}
+				else
+				{
+					_ways.push_back(vec2(point.x, point.y - 1));
+					_ways.push_back(vec2(point.x - 1, point.y - 1));
+					//_ways.push_back(vec2(point.x - 1, point.y));
+					_ways.push_back(vec2(point.x, point.y + 1));
+				}
+			else
+				if (start.y > end.y)
+				{
+					_connections.push_back(vec2(point.x, point.y + 1));
+					_connections.push_back(vec2(point.x + 1, point.y + 1));
+					//_ways.push_back(vec2(point.x - 1, point.y));
+					_ways.push_back(vec2(point.x, point.y - 1));
+				}
+				else
+				{
+					_connections.push_back(vec2(point.x, point.y - 1));
+					_connections.push_back(vec2(point.x + 1, point.y - 1));
+					//_ways.push_back(vec2(point.x + 1, point.y));
+					_ways.push_back(vec2(point.x, point.y + 1));
+				}
+		}
+
+		std::cout << "RIGHT Y " << std::endl;
+		while (point.y != end.y)
+		{
+			if (isPointInAnyRoom(point))
+			{
+				point.y += point.y < end.y ? 1 : -1;
+				includeRoomWithPoint(point);
+				continue;
+			}
+			_ways.push_back(point);
+			_connections.push_back(vec2(point.x + 1, point.y));
+			_connections.push_back(vec2(point.x + 1, point.y));
+			point.y += point.y < end.y ? 1 : -1;
+		}
+	}
+	int count = 0;
+	for (unsigned int i = 0; i < _rooms.size(); i++)
+	{
+		if (_rooms[i].isInclude())
+			count++;
+	}
+}
 
 void Floor::PlaceConnections()
 {
+	for (unsigned int i = 0; i < _connections.size(); i++) 
+		placePoint(_connections[i], '#');
+	for (unsigned int i = 0; i < _ways.size(); i++)
+		placePoint(_ways[i], ' ');
 }
 
 void Floor::PlaceRooms()
 {
 	std::cout << "---PLACING ROOMS---" << std::endl << std::endl;
-	for (int y = 0; y < _height; y++)
-		for (int x = 0; x < _width; x++)
-			_flat[y][x] = ' ';
-
 
 	for (unsigned int i = 0; i < _rooms.size(); i++)
 	{
-		if (_rooms[i].isInclude())
+		if (_rooms[i].isInclude()) 
 		{
+			std::cout << "PLACING " << i << " ROOM" << std::endl;
 			for (int x = 0; x <= _rooms[i].getW(); x++)
 			{
-				_flat[_rooms[i].getY()][_rooms[i].getX() + x] = '#';
-				_flat[_rooms[i].getY() + _rooms[i].getH()][_rooms[i].getX() + x] = '#';
+				placePoint(_rooms[i].getX() + x, _rooms[i].getY(), '#');
+				placePoint(_rooms[i].getX() + x, _rooms[i].getY() + _rooms[i].getH(), '#');
 			}
 			for (int y = 0; y <= _rooms[i].getH(); y++)
 			{
-				_flat[_rooms[i].getY() + y][_rooms[i].getX()] = '#';
-				_flat[_rooms[i].getY() + y][_rooms[i].getX() + _rooms[i].getW()] = '#';
+				placePoint(_rooms[i].getX(), _rooms[i].getY() + y, '#');
+				placePoint(_rooms[i].getX() + _rooms[i].getW(), _rooms[i].getY() + y, '#');
 			}
-		}
+		}	
 	}
 }
 
-void Floor::PlaceCorners() 
-{
-	for (int i = 0; i < _corners.size(); i++)
-		_flat[_corners[i].y][_corners[i].x - 1] = 'L';
-}
-
-void Floor::PlaceAll() 
+void Floor::PlaceAll()
 {
 	for (int y = 0; y < _height; y++)
 		for (int x = 0; x < _width; x++)
@@ -283,5 +436,4 @@ void Floor::PlaceAll()
 
 	PlaceRooms();
 	PlaceConnections();
-	PlaceCorners();
 }

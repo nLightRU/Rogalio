@@ -11,12 +11,10 @@ private:
 	std::vector<Room> _corridors;
 	std::vector<Room> _halls;
 
-	std::vector<vec2> _connectionsVertical;
-	std::vector<vec2> _connectionsHorizontal;
-
+	std::vector<vec2> _connections;
+	std::vector<vec2> _ways;
 	std::vector<vec2> _corners;
 
-	std::vector<vec2> _doors;
 	int _number;
 	int _hallsCount = 0;
 
@@ -27,21 +25,21 @@ private:
 	void GenerateRooms(int numberOfRooms);
 	void SeparateRooms();
 	void MakeGraph();
-	void ChooseHallsAndCorridors();
 	void MakeConnections();
+	void ChooseHallsAndCorridors();
 	void AddLoot();
 	void AddEnemies();
 
 	void PlaceRooms();
 	void PlaceConnections();
 	void PlaceAll();
-	void PlaceCorners();
 	void toFile(std::string FilePath);
 
 	void includeRoomWithPoint(vec2 point);
 	bool checkPointIsADoor(vec2 point);
 	bool isPointInAnyRoom(vec2 point);
 	void placePoint(vec2 point, char symbol);
+	void placePoint(int x, int y, char symbol);
 
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 	Room getRoom(int i) { return _rooms[i]; }
