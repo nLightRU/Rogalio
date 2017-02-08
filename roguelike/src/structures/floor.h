@@ -1,8 +1,8 @@
 #pragma once
 #include "room.h"
+#include "../units/monster.h"
 #include <vector>
 #include <string>
-
 class Floor 
 {
 private:
@@ -14,6 +14,9 @@ private:
 	std::vector<vec2> _connections;
 	std::vector<vec2> _ways;
 	std::vector<vec2> _corners;
+
+	std::vector<Monster> _monsters;
+	vec2 playersPosition;
 
 	int _number;
 	int _hallsCount = 0;
@@ -40,16 +43,20 @@ private:
 	bool isPointInAnyRoom(vec2 point);
 	void placePoint(vec2 point, char symbol);
 	void placePoint(int x, int y, char symbol);
-
-	char getFlatTile(int i, int j) { return _flat[i][j]; }
-	Room getRoom(int i) { return _rooms[i]; }
-	int getW() { return _width; }
-	int getH() { return _height; }
 public: 
 	Floor();
 	Floor(int number, int numberOfRooms);
 	Floor(int numberOfRooms, std::string filePath);
 
+	char getFlatTile(int i, int j) { return _flat[i][j]; }
+	std::vector<Room> getRooms() { return _rooms; }
+	Room getRoom(int i) { return _rooms[i]; }
+
 	int getNumber() { return _number; }
 	int getNumberOfHalls() { return _hallsCount; }
+
+	int getW() { return _width; }
+	int getH() { return _height; }
+
+	std::vector<Monster> getMonsters() { return _monsters; }
 };

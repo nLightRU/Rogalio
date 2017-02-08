@@ -16,11 +16,13 @@ Floor::Floor()
 
 Floor::Floor(int number, int numberOfRooms)
 {
+	//std::cout << "---FLOOR GENERATING---" <<std::endl;
 	_number = number;
 	GenerateRooms(numberOfRooms);
 	SeparateRooms();
-	toFile("separated rooms.txt");
-	AddLoot();
+	MakeGraph();
+	MakeConnections();
+	PlaceAll();
 }
 
 Floor::Floor(int numberOfRooms, std::string filePath)
@@ -272,21 +274,18 @@ void Floor::MakeConnections()
 			point.x += point.x < end.x ? 1 : -1;
 		}
 
-		//corner
 		if (!isPointInAnyRoom(point)) {
 			if (start.x > end.x)
 				if (start.y > end.y)
 				{
 					_connections.push_back(vec2(point.x, point.y + 1));
 					_connections.push_back(vec2(point.x - 1, point.y + 1));
-					//_ways.push_back(vec2(point.x + 1, point.y));
 					_ways.push_back(vec2(point.x, point.y - 1));
 				}
 				else
 				{
 					_ways.push_back(vec2(point.x, point.y - 1));
 					_ways.push_back(vec2(point.x - 1, point.y - 1));
-					//_ways.push_back(vec2(point.x - 1, point.y));
 					_ways.push_back(vec2(point.x, point.y + 1));
 				}
 			else
@@ -294,14 +293,12 @@ void Floor::MakeConnections()
 				{
 					_connections.push_back(vec2(point.x, point.y + 1));
 					_connections.push_back(vec2(point.x + 1, point.y + 1));
-					//_ways.push_back(vec2(point.x -1, point.y));
 					_ways.push_back(vec2(point.x, point.y - 1));
 				}
 				else
 				{
 					_connections.push_back(vec2(point.x, point.y - 1));
 					_connections.push_back(vec2(point.x + 1, point.y - 1));
-					//_ways.push_back(vec2(point.x + 1, point.y));
 					_ways.push_back(vec2(point.x, point.y + 1));
 				}
 		}
@@ -340,21 +337,18 @@ void Floor::MakeConnections()
 			point.x += point.x < end.x ? 1 : -1;
 		}
 
-		//corner
 		if (!isPointInAnyRoom(point)) {
 			if (start.x > end.x)
 				if (start.y > end.y)
 				{
 					_connections.push_back(vec2(point.x, point.y + 1));
 					_connections.push_back(vec2(point.x - 1, point.y + 1));
-					//_ways.push_back(vec2(point.x + 1, point.y));
 					_ways.push_back(vec2(point.x, point.y - 1));
 				}
 				else
 				{
 					_ways.push_back(vec2(point.x, point.y - 1));
 					_ways.push_back(vec2(point.x - 1, point.y - 1));
-					//_ways.push_back(vec2(point.x - 1, point.y));
 					_ways.push_back(vec2(point.x, point.y + 1));
 				}
 			else
@@ -362,14 +356,12 @@ void Floor::MakeConnections()
 				{
 					_connections.push_back(vec2(point.x, point.y + 1));
 					_connections.push_back(vec2(point.x + 1, point.y + 1));
-					//_ways.push_back(vec2(point.x - 1, point.y));
 					_ways.push_back(vec2(point.x, point.y - 1));
 				}
 				else
 				{
 					_connections.push_back(vec2(point.x, point.y - 1));
 					_connections.push_back(vec2(point.x + 1, point.y - 1));
-					//_ways.push_back(vec2(point.x + 1, point.y));
 					_ways.push_back(vec2(point.x, point.y + 1));
 				}
 		}
