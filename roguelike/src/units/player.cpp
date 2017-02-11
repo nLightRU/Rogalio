@@ -5,11 +5,21 @@ Player::Player()
 	_maxHealth = 100;
 	_health = 100; 
 	_mana = 100;
-	_position = vec2(10, 10);
 }
 
 void Player::shift(int dx, int dy) 
 {
 	_position.x += dx;
 	_position.y += dy;
+}
+
+void Player::shift(vec2 direction) 
+{
+	_position.x += direction.x;
+	_position.y += direction.y;
+}
+
+void Player::setPosition(vec2 position) 
+{
+	_position = position;
 }

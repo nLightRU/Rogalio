@@ -7,5 +7,6 @@ private:
 	char _buff[20][20];
 public: 
 	Camera();
-	void printCamera();
+	void print();
+	void setBuff(char buff[20][20]);
 };

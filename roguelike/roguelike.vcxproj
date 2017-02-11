@@ -142,10 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\graphic\camera.cpp" />
+    <ClCompile Include="src\ASCII graphic\camera.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\gameManager.cpp" />
     <ClCompile Include="src\managers\playerInputManager.cpp" />
+    <ClCompile Include="src\structures\dungeon.cpp" />
     <ClCompile Include="src\units\monster.cpp" />
     <ClCompile Include="src\units\player.cpp" />
     <ClCompile Include="src\structures\room.cpp" />
@@ -153,9 +154,10 @@
     <ClCompile Include="src\math\vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\graphic\camera.h" />
+    <ClInclude Include="src\ASCII graphic\camera.h" />
     <ClInclude Include="src\managers\gameManager.h" />
     <ClInclude Include="src\managers\playerInputManager.h" />
+    <ClInclude Include="src\structures\dungeon.h" />
     <ClInclude Include="src\units\monster.h" />
     <ClInclude Include="src\units\player.h" />
     <ClInclude Include="src\structures\floor.h" />

@@ -16,7 +16,7 @@ private:
 	std::vector<vec2> _corners;
 
 	std::vector<Monster> _monsters;
-	vec2 playersPosition;
+	vec2 _playersPosition;
 
 	int _number;
 	int _hallsCount = 0;
@@ -35,6 +35,7 @@ private:
 
 	void PlaceRooms();
 	void PlaceConnections();
+	void RespawnPlayer();
 	void PlaceAll();
 	void toFile(std::string FilePath);
 
@@ -54,9 +55,12 @@ public:
 
 	int getNumber() { return _number; }
 	int getNumberOfHalls() { return _hallsCount; }
+	int getNumberOfRooms() { return _rooms.size(); }
 
 	int getW() { return _width; }
 	int getH() { return _height; }
 
 	std::vector<Monster> getMonsters() { return _monsters; }
+	vec2 getPlayersPosition() { return _playersPosition; }
+	void setPlayersPosition(vec2 position) { _playersPosition = position; }
 };

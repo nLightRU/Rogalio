@@ -9,20 +9,22 @@ Floor::Floor()
 {
 	_number = 0;
 
-	for (int y = 0; y < _height; y++)
-		for (int x = 0; x < _width; x++)
-			_flat[y][x] = '.';
+	GenerateRooms(50);
+	SeparateRooms();
+	MakeGraph();
+	MakeConnections();
+	PlaceAll();
+	RespawnPlayer();
 }
 
 Floor::Floor(int number, int numberOfRooms)
 {
-	//std::cout << "---FLOOR GENERATING---" <<std::endl;
-	_number = number;
 	GenerateRooms(numberOfRooms);
 	SeparateRooms();
 	MakeGraph();
 	MakeConnections();
 	PlaceAll();
+	RespawnPlayer();
 }
 
 Floor::Floor(int numberOfRooms, std::string filePath)
@@ -33,6 +35,7 @@ Floor::Floor(int numberOfRooms, std::string filePath)
 	MakeGraph();
 	MakeConnections();
 	PlaceAll();
+	RespawnPlayer();
 	toFile(filePath);
 }
 
@@ -53,12 +56,10 @@ void Floor::GenerateRooms(int numberOfRooms)
 		if (w / h < 1) continue;
 		_rooms.push_back(Room(x, y, w, h));
 	}
-	std::cout << "---GENERATING---" << std::endl << _rooms.size() << " ROOMS" << std::endl;
 }
 
 void Floor::SeparateRooms()
 {
-	std::cout << std::endl << "---SEPARATING---" << std::endl;
 	int dx, dy, dxa, dxb, dya, dyb;
 	bool touching = true;
 
@@ -105,8 +106,6 @@ void Floor::SeparateRooms()
 				}
 		}
 	}
-
-	std::cout << steps << " STEPS" << std::endl;
 }
 
 void Floor::ChooseHallsAndCorridors()
@@ -130,15 +129,10 @@ void Floor::ChooseHallsAndCorridors()
 
 	for (int i = _rooms.size() - 1; i > _hallsCount; i--)
 		_corridors.push_back(_rooms[i]);
-	std::cout << std::endl << "CHOOSEN " <<
-		_hallsCount << " HALLS AND " <<
-		_rooms.size() - _hallsCount << " CORRIDORS" << std::endl << std::endl;
 }
 
 void Floor::MakeGraph()
 {
-	std::cout << std::endl << "---MAKING GRAPH---";
-
 	ChooseHallsAndCorridors();
 
 	int distance, tempDistance;
@@ -246,7 +240,6 @@ void Floor::placePoint(int x, int y, char symbol)
 
 void Floor::MakeConnections()
 {
-	std::cout << std::endl << "---MAKING CONNECTIONS---" << std::endl;
 	vec2 point, end;
 	vec2 start;
 	int indexOfJoining;
@@ -254,12 +247,10 @@ void Floor::MakeConnections()
 	for (int i = 0; i < _halls.size(); i++)
 	{
 		start = _halls[i].getCenter();
-		std::cout << "HALL " << i + 1 << ": ";
 		point = _halls[i].getCenter();
 		indexOfJoining = _halls[i].getLeftJoin();
 		end = _halls[indexOfJoining].getCenter();
 
-		std::cout << "LEFT X, ";
 		while (point.x != end.x)
 		{
 			if (isPointInAnyRoom(point))
@@ -303,7 +294,6 @@ void Floor::MakeConnections()
 				}
 		}
 
-		std::cout << "LEFT Y, ";
 		while (point.y != end.y)
 		{
 			if (isPointInAnyRoom(point))
@@ -322,7 +312,6 @@ void Floor::MakeConnections()
 		indexOfJoining = _halls[i].getRightJoin();
 		end = _halls[indexOfJoining].getCenter();
 
-		std::cout << "RIGHT X, ";
 		while (point.x != end.x)
 		{
 			if (isPointInAnyRoom(point))
@@ -366,7 +355,6 @@ void Floor::MakeConnections()
 				}
 		}
 
-		std::cout << "RIGHT Y " << std::endl;
 		while (point.y != end.y)
 		{
 			if (isPointInAnyRoom(point))
@@ -399,13 +387,10 @@ void Floor::PlaceConnections()
 
 void Floor::PlaceRooms()
 {
-	std::cout << "---PLACING ROOMS---" << std::endl << std::endl;
-
 	for (unsigned int i = 0; i < _rooms.size(); i++)
 	{
 		if (_rooms[i].isInclude()) 
 		{
-			std::cout << "PLACING " << i << " ROOM" << std::endl;
 			for (int x = 0; x <= _rooms[i].getW(); x++)
 			{
 				placePoint(_rooms[i].getX() + x, _rooms[i].getY(), '#');
@@ -418,6 +403,16 @@ void Floor::PlaceRooms()
 			}
 		}	
 	}
+}
+
+void Floor::RespawnPlayer() 
+{
+	int respawnHall = rand() % _hallsCount + 1;
+	int x = _halls[respawnHall].getCenter().x;
+	int y = _halls[respawnHall].getCenter().y + 1;
+
+	_playersPosition = vec2(x, y);
+	placePoint(_playersPosition, '@');
 }
 
 void Floor::PlaceAll()
