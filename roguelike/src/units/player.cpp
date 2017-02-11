@@ -23,3 +23,9 @@ void Player::setPosition(vec2 position)
 {
 	_position = position;
 }
+
+void Player::setPosition(int x, int y) 
+{
+	_position.x = x;
+	_position.y = y;
+}

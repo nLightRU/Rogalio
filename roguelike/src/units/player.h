@@ -13,6 +13,7 @@ public:
 
 	vec2 getPosition() { return _position; }
 	void setPosition(vec2 position);
+	void setPosition(int x, int y);
 	void shift(int dx, int dy);
 	void shift(vec2 direction);
 };

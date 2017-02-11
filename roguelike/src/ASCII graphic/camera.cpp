@@ -15,7 +15,7 @@ void Camera::print()
 	}
 }
 
-void Camera::setBuff(char buff[20][20])
+void Camera::setBuff(char buff[21][21])
 {
 	for (int i = 0; i < _buffHeight; i++)
 		for (int j = 0; j < _buffWidth; j++)

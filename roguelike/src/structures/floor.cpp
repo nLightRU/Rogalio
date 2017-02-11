@@ -424,3 +424,10 @@ void Floor::PlaceAll()
 	PlaceRooms();
 	PlaceConnections();
 }
+
+void Floor::movePlayer(vec2 position) 
+{
+	placePoint(_playersPosition, ' ');
+	_playersPosition = position;
+	placePoint(_playersPosition, '@');
+}

@@ -62,5 +62,5 @@ public:
 
 	std::vector<Monster> getMonsters() { return _monsters; }
 	vec2 getPlayersPosition() { return _playersPosition; }
-	void setPlayersPosition(vec2 position) { _playersPosition = position; }
+	void movePlayer(vec2 position);
 };

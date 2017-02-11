@@ -12,7 +12,10 @@ private:
 	Player _player;
 	Camera _camera;
 	GAME_STATES _state;
-	Dungeon _dungeon;
+	Floor _floor; 
+
+	void PrintCamera();
+	void Input();
 public: 
 	GameManager();
 
