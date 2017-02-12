@@ -5,11 +5,11 @@
 class Monster
 {
 private:
-	int _health, _maxHealth, _mana;
-	int _minDamage, _maxDamage;
-	int _rarity;
-	char _texture;
-	std::string _name;
+	int _health = 10, _maxHealth = 10, _mana = 0;
+	int _minDamage = 0, _maxDamage = 1;
+	int _rarity = 1;
+	char _texture = 'm';
+	std::string _name = "Monster";
 	vec2 _position;
 	std::vector<vec2> _way;
 
@@ -17,6 +17,8 @@ private:
 
 public:
 	Monster();
+	Monster(vec2 position);
+	Monster(int health, int mana, vec2 position);
 	int getHealth() { return _health; }
 	char getTexture() { return _texture; }
 	int getMana() { return _mana; }

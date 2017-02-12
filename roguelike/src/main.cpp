@@ -8,10 +8,11 @@
 
 int main() 
 {
-	//	system("color 0C");
+	system("color 0C");
 
 	GameManager manager;
 	manager.startGame();
+
 	system("pause");
 	return 0;
 }

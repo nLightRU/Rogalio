@@ -12,6 +12,23 @@ Monster::Monster()
 	_mana = 0;
 }
 
+Monster::Monster(int health, int mana, vec2 position) 
+{
+	_health = health;
+	_mana = mana;
+	_position = position;
+	_name = "monster"; 
+	_texture = 'm';
+	_rarity = 1;
+	_minDamage = 10; 
+	_maxDamage = 20;
+}
+
+Monster::Monster(vec2 position) 
+{
+	_position = position;
+}
+
 void Monster::setHealth(int health)
 {
 	_health = health;

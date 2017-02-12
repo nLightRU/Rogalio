@@ -13,8 +13,11 @@ Floor::Floor()
 	SeparateRooms();
 	MakeGraph();
 	MakeConnections();
+	MakeGreatWall();
+	//AddEnemies();
 	PlaceAll();
 	RespawnPlayer();
+	toFile("rooms.txt");
 }
 
 Floor::Floor(int number, int numberOfRooms)
@@ -23,8 +26,11 @@ Floor::Floor(int number, int numberOfRooms)
 	SeparateRooms();
 	MakeGraph();
 	MakeConnections();
+	MakeGreatWall();
+	//AddEnemies();
 	PlaceAll();
 	RespawnPlayer();
+	toFile("rooms.txt");
 }
 
 Floor::Floor(int numberOfRooms, std::string filePath)
@@ -34,6 +40,8 @@ Floor::Floor(int numberOfRooms, std::string filePath)
 	SeparateRooms();
 	MakeGraph();
 	MakeConnections();
+	MakeGreatWall();
+	//AddEnemies();
 	PlaceAll();
 	RespawnPlayer();
 	toFile(filePath);
@@ -48,8 +56,8 @@ void Floor::GenerateRooms(int numberOfRooms)
 
 	for (int i = 0; i < numberOfRooms; i++)
 	{
-		x = rand() % (80 - 50 + 1) + 50;
-		y = rand() % (40 - 15 + 1) + 15;
+		x = rand() % (150 - 120 + 1) + 120;
+		y = rand() % (150 - 120 + 1) + 120;
 		w = rand() % (15 - 3 + 1) + 3; //15;
 		h = rand() % (15 - 3 + 1) + 3; //15; 
 
@@ -208,7 +216,28 @@ bool Floor::checkPointIsADoor(vec2 point)
 
 void Floor::AddEnemies()
 {
+	int numberOfMonsters; 
+	int hall, x, y;
+	int hallX1, hallY1, hallY2, hallX2;
+	Monster monster;
+	numberOfMonsters = rand() % (10 - 5 + 1) + 5;
+	for (int i = 0; i < numberOfMonsters; i++) 
+	{
+		hall = rand() % (_hallsCount + 1); 
 
+		hallX1 = _halls[hall].getX();
+		hallY1 = _halls[hall].getY();
+
+		hallX2 = _halls[hall].getW() + _halls[hall].getX();
+		hallY2 = _halls[hall].getH() + _halls[hall].getY();
+		
+		x = rand() % (hallX2 - hallX1 + 1) + hallX1;
+		y = rand() % (hallY2 - hallY1 + 1) + hallY1;
+
+		monster = Monster(vec2(x, y));
+
+		_monsters.push_back(monster);
+	}
 }
 
 void Floor::AddLoot()
@@ -423,6 +452,7 @@ void Floor::PlaceAll()
 
 	PlaceRooms();
 	PlaceConnections();
+	PlaceMonsters();
 }
 
 void Floor::movePlayer(vec2 position) 
@@ -430,4 +460,34 @@ void Floor::movePlayer(vec2 position)
 	placePoint(_playersPosition, ' ');
 	_playersPosition = position;
 	placePoint(_playersPosition, '@');
+}
+
+void Floor::MakeGreatWall() 
+{
+	int maxX, maxY, minX, minY;
+
+	maxX = _rooms[0].getX();
+	maxY = _rooms[0].getY();
+	minX = _rooms[0].getX();
+	minY = _rooms[0].getY();
+
+	for (unsigned int i = 1; i < _rooms.size(); i++)
+	{
+		if (minX > _rooms[i].getX()) minX = _rooms[i].getX();
+		if (maxX < _rooms[i].getX()) maxX = _rooms[i].getX();
+		if (minY > _rooms[i].getY()) minY = _rooms[i].getY();
+		if (maxY < _rooms[i].getY()) maxY = _rooms[i].getY();
+	}
+	if (minY - 1 < 0) minY = 0;
+	Room greatRoom = Room(minX - 1, minY -1, maxX + 2, maxY + 2);
+	greatRoom.includeInFloor();
+	_rooms.push_back(greatRoom);
+}
+
+void Floor::PlaceMonsters() 
+{
+	for (unsigned int i = 0; i < _monsters.size(); i++) 
+	{
+		placePoint(_monsters[i].getPosition(), _monsters[i].getTexture());
+	}
 }

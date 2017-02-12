@@ -8,6 +8,9 @@ enum GAME_STATES {MainMenu, PlayerTurn, MonstersTurn};
 class GameManager
 {
 private: 
+
+	std::vector<char> _forbiddenTextures;
+
 	PlayerInputManager _playerInputManager;
 	Player _player;
 	Camera _camera;
@@ -15,7 +18,10 @@ private:
 	Floor _floor; 
 
 	void PrintCamera();
+	void PrintUI();
 	void Input();
+
+	bool checkTile(vec2 position);
 public: 
 	GameManager();
 

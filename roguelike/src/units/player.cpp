@@ -4,6 +4,7 @@ Player::Player()
 {
 	_maxHealth = 100;
 	_health = 100; 
+	_maxMana = 100;
 	_mana = 100;
 }
 

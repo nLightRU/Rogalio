@@ -1,10 +1,13 @@
 #include "gameManager.h"
 #include "../math/vec2.h"
+#include <iostream>
 
 GameManager::GameManager()
 {
 	system("cls");
 	_player.setPosition(_floor.getPlayersPosition());
+	_forbiddenTextures.push_back('#');
+	_forbiddenTextures.push_back('m');
 }
 
 void GameManager::startGame()
@@ -15,8 +18,10 @@ void GameManager::startGame()
 		Input();
 
 		PrintCamera();
+		
+		PrintUI();
 	}
-}
+}  
 
 void GameManager::PrintCamera() 
 {
@@ -63,6 +68,8 @@ void GameManager::Input()
 {
 	_playerInputManager.input();
 	vec2 movingDirection = _playerInputManager.getMovingDirection();
+	vec2 tile = vec2(_player.getPosition().x + movingDirection.x,
+		_player.getPosition().y + movingDirection.y);
 
 	if (_floor.getFlatTile(_player.getPosition().y + movingDirection.y,
 		_player.getPosition().x + movingDirection.x)
@@ -72,4 +79,21 @@ void GameManager::Input()
 			_player.getPosition().y + movingDirection.y);
 		_floor.movePlayer(_player.getPosition());
 	}
+}
+
+bool GameManager::checkTile(vec2 position) 
+{
+	for (unsigned int i = 0; i < _forbiddenTextures.size(); i++) 
+		if (_floor.getFlatTile(position.x, position.y) == _forbiddenTextures[i])
+			return false;
+	return true;
+}
+
+void GameManager::PrintUI()
+{
+	std::cout << std::endl;
+	std::cout << "Health " << _player.getHealth() << "/" << _player.getMaxHealth();
+	std::cout << std::endl;
+	std::cout << "Mana " << _player.getMana() << "/" << _player.getMaxMana();
+	std::cout << std::endl;
 }
