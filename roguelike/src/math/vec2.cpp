@@ -22,3 +22,8 @@ void vec2::shift(int dx, int dy)
 	this->x += dx;
 	this->y += dy;
 }
+
+vec2 vec2::operator+(vec2 summand)
+{
+	return vec2(this->x + summand.x, this->y + summand.y);
+}

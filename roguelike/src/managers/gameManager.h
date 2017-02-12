@@ -20,8 +20,10 @@ private:
 	void PrintCamera();
 	void PrintUI();
 	void Input();
-
+	
 	bool checkTile(vec2 position);
+
+	bool inventoryOpened = false;
 public: 
 	GameManager();
 

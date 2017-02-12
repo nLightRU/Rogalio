@@ -62,6 +62,7 @@ public:
 	Floor(int numberOfRooms, std::string filePath);
 
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
+	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }
 	std::vector<Room> getRooms() { return _rooms; }
 	Room getRoom(int i) { return _rooms[i]; }
 

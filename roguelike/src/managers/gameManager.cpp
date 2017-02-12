@@ -16,9 +16,7 @@ void GameManager::startGame()
 	while (_playerInputManager.getInputType() != Exit)
 	{
 		Input();
-
-		PrintCamera();
-		
+		PrintCamera();				
 		PrintUI();
 	}
 }  
@@ -67,16 +65,20 @@ void GameManager::PrintCamera()
 void GameManager::Input() 
 {
 	_playerInputManager.input();
-	vec2 movingDirection = _playerInputManager.getMovingDirection();
-	vec2 tile = vec2(_player.getPosition().x + movingDirection.x,
-		_player.getPosition().y + movingDirection.y);
 
-	if (_floor.getFlatTile(_player.getPosition().y + movingDirection.y,
-		_player.getPosition().x + movingDirection.x)
-		!= '#')
+	if (_playerInputManager.getInputType() == OpenInventory)
 	{
-		_player.setPosition(_player.getPosition().x + movingDirection.x,
-			_player.getPosition().y + movingDirection.y);
+		if (inventoryOpened)
+			inventoryOpened = false;
+		else inventoryOpened = true;
+	}
+
+	vec2 movingDirection = _playerInputManager.getMovingDirection();
+	vec2 tile = vec2(_player.getPosition() + movingDirection);
+
+	if (checkTile(tile) && !inventoryOpened)
+	{
+		_player.setPosition(_player.getPosition() + movingDirection);
 		_floor.movePlayer(_player.getPosition());
 	}
 }
@@ -84,7 +86,7 @@ void GameManager::Input()
 bool GameManager::checkTile(vec2 position) 
 {
 	for (unsigned int i = 0; i < _forbiddenTextures.size(); i++) 
-		if (_floor.getFlatTile(position.x, position.y) == _forbiddenTextures[i])
+		if (_floor.getFlatTile(position) == _forbiddenTextures[i])
 			return false;
 	return true;
 }
@@ -96,4 +98,7 @@ void GameManager::PrintUI()
 	std::cout << std::endl;
 	std::cout << "Mana " << _player.getMana() << "/" << _player.getMaxMana();
 	std::cout << std::endl;
+	std::cout << "Inventory "; 
+	if (inventoryOpened) std::cout << "opened" << std::endl;
+	else std::cout << "closed" << std::endl;
 }
