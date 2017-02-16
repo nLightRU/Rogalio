@@ -5,7 +5,7 @@ class Room
 {
 
 private:
-	// x, y - left bottom corner coordinates
+	// x, y - left top corner coordinates
 	int _height, _width;
 	int _left, _right, _top, _bottom;
 	int _joiningLeft, _joiningRight;
@@ -50,4 +50,5 @@ public:
 	int countDistance(Room b);
 	bool includePoint(vec2 point);
 	void includeInFloor() { _includesInFloor = true; }
+	vec2 createRandomPoint();
 };

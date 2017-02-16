@@ -14,9 +14,7 @@ Floor::Floor()
 	MakeGraph();
 	MakeConnections();
 	MakeGreatWall();
-	//AddEnemies();
 	PlaceAll();
-	RespawnPlayer();
 	toFile("rooms.txt");
 }
 
@@ -27,9 +25,7 @@ Floor::Floor(int number, int numberOfRooms)
 	MakeGraph();
 	MakeConnections();
 	MakeGreatWall();
-	//AddEnemies();
 	PlaceAll();
-	RespawnPlayer();
 	toFile("rooms.txt");
 }
 
@@ -41,9 +37,7 @@ Floor::Floor(int numberOfRooms, std::string filePath)
 	MakeGraph();
 	MakeConnections();
 	MakeGreatWall();
-	//AddEnemies();
 	PlaceAll();
-	RespawnPlayer();
 	toFile(filePath);
 }
 
@@ -212,37 +206,6 @@ bool Floor::checkPointIsADoor(vec2 point)
 	}
 
 	return false;
-}
-
-void Floor::AddEnemies()
-{
-	int numberOfMonsters; 
-	int hall, x, y;
-	int hallX1, hallY1, hallY2, hallX2;
-	Monster monster;
-	numberOfMonsters = rand() % (10 - 5 + 1) + 5;
-	for (int i = 0; i < numberOfMonsters; i++) 
-	{
-		hall = rand() % (_hallsCount + 1); 
-
-		hallX1 = _halls[hall].getX();
-		hallY1 = _halls[hall].getY();
-
-		hallX2 = _halls[hall].getW() + _halls[hall].getX();
-		hallY2 = _halls[hall].getH() + _halls[hall].getY();
-		
-		x = rand() % (hallX2 - hallX1 + 1) + hallX1;
-		y = rand() % (hallY2 - hallY1 + 1) + hallY1;
-
-		monster = Monster(vec2(x, y));
-
-		_monsters.push_back(monster);
-	}
-}
-
-void Floor::AddLoot()
-{
-
 }
 
 void Floor::toFile(std::string filePath)
@@ -434,16 +397,6 @@ void Floor::PlaceRooms()
 	}
 }
 
-void Floor::RespawnPlayer() 
-{
-	int respawnHall = rand() % _hallsCount + 1;
-	int x = _halls[respawnHall].getCenter().x;
-	int y = _halls[respawnHall].getCenter().y + 1;
-
-	_playersPosition = vec2(x, y);
-	placePoint(_playersPosition, '@');
-}
-
 void Floor::PlaceAll()
 {
 	for (int y = 0; y < _height; y++)
@@ -452,14 +405,6 @@ void Floor::PlaceAll()
 
 	PlaceRooms();
 	PlaceConnections();
-	PlaceMonsters();
-}
-
-void Floor::movePlayer(vec2 position) 
-{
-	placePoint(_playersPosition, ' ');
-	_playersPosition = position;
-	placePoint(_playersPosition, '@');
 }
 
 void Floor::MakeGreatWall() 
@@ -484,10 +429,9 @@ void Floor::MakeGreatWall()
 	_rooms.push_back(greatRoom);
 }
 
-void Floor::PlaceMonsters() 
+vec2 Floor::createRandomPointInHall() 
 {
-	for (unsigned int i = 0; i < _monsters.size(); i++) 
-	{
-		placePoint(_monsters[i].getPosition(), _monsters[i].getTexture());
-	}
+	int x, y, hallNumber; 
+	hallNumber = rand() % _hallsCount;
+	return _halls[hallNumber].createRandomPoint();
 }

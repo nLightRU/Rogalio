@@ -42,7 +42,10 @@
     <ClCompile Include="src\structures\dungeon.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\ASCII graphic\camera.cpp">
+    <ClCompile Include="src\managers\floorManager.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ASCII graphic\ASCIIcamera.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +74,10 @@
     <ClInclude Include="src\structures\dungeon.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="src\ASCII graphic\camera.h">
+    <ClInclude Include="src\managers\floorManager.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ASCII graphic\ASCIIcamera.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

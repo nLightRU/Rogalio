@@ -120,3 +120,11 @@ bool Room::includePoint(vec2 point)
 		point.y > _top;
 	return first;
 }
+
+vec2 Room::createRandomPoint() 
+{
+	int x, y; 
+	x = rand() % (_right - _left + 1 + _left) + _left;
+	y = rand() % (_bottom - _top + 1) + _top;
+	return vec2(x, y);
+}

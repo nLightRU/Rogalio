@@ -142,8 +142,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ASCII graphic\camera.cpp" />
+    <ClCompile Include="src\ASCII graphic\ASCIIcamera.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\managers\floorManager.cpp" />
     <ClCompile Include="src\managers\gameManager.cpp" />
     <ClCompile Include="src\managers\playerInputManager.cpp" />
     <ClCompile Include="src\structures\dungeon.cpp" />
@@ -154,7 +155,8 @@
     <ClCompile Include="src\math\vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ASCII graphic\camera.h" />
+    <ClInclude Include="src\ASCII graphic\ASCIIcamera.h" />
+    <ClInclude Include="src\managers\floorManager.h" />
     <ClInclude Include="src\managers\gameManager.h" />
     <ClInclude Include="src\managers\playerInputManager.h" />
     <ClInclude Include="src\structures\dungeon.h" />

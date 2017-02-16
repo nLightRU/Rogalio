@@ -8,7 +8,7 @@
 
 int main() 
 {
-	//system("color 0C");
+	//system("color 0F");
 
 	GameManager manager;
 	manager.startGame();

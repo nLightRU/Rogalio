@@ -1,8 +1,9 @@
 #pragma once
 #include "playerInputManager.h"
-#include "../ASCII graphic/camera.h"
+#include "../ASCII graphic/ASCIIcamera.h"
 #include "../units/player.h"
 #include "../structures/dungeon.h"
+#include "floorManager.h"
 enum GAME_STATES {MainMenu, PlayerTurn, MonstersTurn};
 
 class GameManager
@@ -13,9 +14,9 @@ private:
 
 	PlayerInputManager _playerInputManager;
 	Player _player;
-	Camera _camera;
+	ASCIICamera _ASCIIcamera;
 	GAME_STATES _state;
-	Floor _floor; 
+	FloorManager _floorManager; 
 
 	void PrintCamera();
 	void PrintUI();

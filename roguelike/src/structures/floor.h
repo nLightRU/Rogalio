@@ -3,7 +3,7 @@
 #include "../units/monster.h"
 #include <vector>
 #include <string>
-class Floor 
+class Floor
 {
 private:
 	std::vector<Room> _rooms;
@@ -19,34 +19,26 @@ private:
 	std::vector<vec2> _ways;
 	std::vector<vec2> _corners;
 
-	// different mobs 
-	std::vector<Monster> _monsters;
-	vec2 _playersPosition;
-
 	int _number;
 	int _hallsCount = 0;
 
 	const int _height = 300, _width = 300;
 
 	char _flat[300][300];
-	
+
 	// methods for generating floor
 	void GenerateRooms(int numberOfRooms);
 	void SeparateRooms();
 	void MakeGraph();
 	void MakeConnections();
 	void ChooseHallsAndCorridors();
-	void AddLoot();
-	void AddEnemies();
 
 	// methods for placing floor in the flat
 	void PlaceRooms();
 	void PlaceConnections();
-	void RespawnPlayer();
-	void PlaceMonsters();
 	void PlaceAll();
 	void toFile(std::string FilePath);
-	
+
 	// ad hoc for broken corridors 
 	void MakeGreatWall();
 
@@ -63,18 +55,14 @@ public:
 
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }
-	std::vector<Room> getRooms() { return _rooms; }
-	Room getRoom(int i) { return _rooms[i]; }
 
 	int getNumber() { return _number; }
-	int getNumberOfHalls() { return _hallsCount; }
+	int getNumberOfHalls() { return _halls.size(); }
+	std::vector<Room> getHalls() { return _halls; }
+	std::vector<Room> getRooms() { return _rooms; }
 	int getNumberOfRooms() { return _rooms.size(); }
+	vec2 createRandomPointInHall();
 
 	int getW() { return _width; }
 	int getH() { return _height; }
-
-	std::vector<Monster> getMonsters() { return _monsters; }
-	vec2 getPlayersPosition() { return _playersPosition; }
-
-	void movePlayer(vec2 position);
 };

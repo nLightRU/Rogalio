@@ -5,14 +5,14 @@
 GameManager::GameManager()
 {
 	system("cls");
-	_player.setPosition(_floor.getPlayersPosition());
+	_player.setPosition(_floorManager.getPlayersPosition());
 	_forbiddenTextures.push_back('#');
 	_forbiddenTextures.push_back('m');
 }
 
 void GameManager::startGame()
-{
-	vec2 movingDirection;
+{	
+	std::cout << "Press any key to start game" << std::endl;
 	while (_playerInputManager.getInputType() != Exit)
 	{
 		Input();
@@ -28,7 +28,7 @@ void GameManager::PrintCamera()
 	for (int y = 0; y < 11; y++)
 		for (int x = 0; x < 11; x++)
 		{
-			cameraBuff[y][x] = _floor.getFlatTile(_player.getPosition().y - 10 + y,
+			cameraBuff[y][x] = _floorManager.getFlatTile(_player.getPosition().y - 10 + y,
 				_player.getPosition().x - 10 + x
 			);
 		}
@@ -36,7 +36,7 @@ void GameManager::PrintCamera()
 	for (int y = 0; y < 11; y++)
 		for (int x = 10; x < 21; x++)
 		{
-			cameraBuff[y][x] = _floor.getFlatTile(_player.getPosition().y - 10 + y,
+			cameraBuff[y][x] = _floorManager.getFlatTile(_player.getPosition().y - 10 + y,
 				_player.getPosition().x - 10 + x
 			);
 		}
@@ -44,7 +44,7 @@ void GameManager::PrintCamera()
 	for (int y = 10; y < 21; y++)
 		for (int x = 0; x < 11; x++)
 		{
-			cameraBuff[y][x] = _floor.getFlatTile(_player.getPosition().y - 10 + y,
+			cameraBuff[y][x] = _floorManager.getFlatTile(_player.getPosition().y - 10 + y,
 				_player.getPosition().x - 10 + x
 			);
 		}
@@ -52,14 +52,14 @@ void GameManager::PrintCamera()
 	for (int y = 10; y < 21; y++)
 		for (int x = 10; x < 21; x++)
 		{
-			cameraBuff[y][x] = _floor.getFlatTile(_player.getPosition().y - 10 + y,
+			cameraBuff[y][x] = _floorManager.getFlatTile(_player.getPosition().y - 10 + y,
 				_player.getPosition().x - 10 + x
 			);
 		}
 
-	_camera.setBuff(cameraBuff);
+	_ASCIIcamera.setBuff(cameraBuff);
 	system("cls");
-	_camera.print();
+	_ASCIIcamera.print();
 }
 
 void GameManager::Input() 
@@ -79,14 +79,14 @@ void GameManager::Input()
 	if (checkTile(tile) && !inventoryOpened)
 	{
 		_player.setPosition(_player.getPosition() + movingDirection);
-		_floor.movePlayer(_player.getPosition());
+		_floorManager.movePlayer(_player.getPosition());
 	}
 }
 
 bool GameManager::checkTile(vec2 position) 
 {
 	for (unsigned int i = 0; i < _forbiddenTextures.size(); i++) 
-		if (_floor.getFlatTile(position) == _forbiddenTextures[i])
+		if (_floorManager.getFlatTile(position) == _forbiddenTextures[i])
 			return false;
 	return true;
 }
@@ -101,4 +101,9 @@ void GameManager::PrintUI()
 	std::cout << "Inventory "; 
 	if (inventoryOpened) std::cout << "opened" << std::endl;
 	else std::cout << "closed" << std::endl;
+	std::cout << "w - up" << std::endl; 
+	std::cout << "a - left" << std::endl;
+	std::cout << "s - down" << std::endl;
+	std::cout << "d - right" << std::endl;
+	std::cout << "p - exit" << std::endl;
 }

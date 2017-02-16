@@ -11,7 +11,6 @@ public:
 	Dungeon(int numberOfFloors);
 	Floor getCurrentFloor() { return _floors[_currentFloorNumber]; }
 	int getCurrentFloorNumber() { return _currentFloorNumber; }
-	void setPlayerPosition(vec2 position) { _floors[_currentFloorNumber].movePlayer(position); }
 	void setCurrentFloorNumber(int number) { _currentFloorNumber = number; }
 	std::vector<Floor> getFloors() { return _floors; }
 };
