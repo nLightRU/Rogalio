@@ -16,6 +16,7 @@ void GameManager::startGame()
 	while (_playerInputManager.getInputType() != Exit)
 	{
 		Input();
+		_floorManager.makeMonstersTurn();
 		PrintCamera();				
 		PrintUI();
 	}

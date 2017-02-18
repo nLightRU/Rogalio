@@ -3,6 +3,7 @@
 #include "../units/monster.h"
 #include <vector>
 #include <string>
+#include "../math/graph.h"
 class Floor
 {
 private:
@@ -26,12 +27,15 @@ private:
 
 	char _flat[300][300];
 
+	Graph _graph;
+
 	// methods for generating floor
 	void GenerateRooms(int numberOfRooms);
 	void SeparateRooms();
-	void MakeGraph();
+	void MakeNeighborhoodGraph();
 	void MakeConnections();
 	void ChooseHallsAndCorridors();
+	void AddVerticiesToGraph();
 
 	// methods for placing floor in the flat
 	void PlaceRooms();
@@ -45,7 +49,6 @@ private:
 	// additional methods for generating floor
 	void includeRoomWithPoint(vec2 point);
 	bool checkPointIsADoor(vec2 point);
-	bool isPointInAnyRoom(vec2 point);
 	void placePoint(vec2 point, char symbol);
 	void placePoint(int x, int y, char symbol);
 public:
@@ -62,6 +65,9 @@ public:
 	std::vector<Room> getRooms() { return _rooms; }
 	int getNumberOfRooms() { return _rooms.size(); }
 	vec2 createRandomPointInHall();
+	bool isPointInAnyRoom(vec2 point);
+
+	vec2 findStepToGoal(vec2 start, vec2 goal);
 
 	int getW() { return _width; }
 	int getH() { return _height; }

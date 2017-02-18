@@ -1,11 +1,6 @@
 #include "monster.h"
 #include <time.h>
 
-void Monster::MakeWay()
-{
-
-}
-
 Monster::Monster()
 {
 	_health = 1;

@@ -11,10 +11,8 @@ private:
 	char _texture = 'm';
 	std::string _name = "Monster";
 	vec2 _position;
+
 	std::vector<vec2> _way;
-
-	void MakeWay();
-
 public:
 	Monster();
 	Monster(vec2 position);

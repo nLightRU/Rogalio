@@ -11,8 +11,9 @@ Floor::Floor()
 
 	GenerateRooms(50);
 	SeparateRooms();
-	MakeGraph();
+	MakeNeighborhoodGraph();
 	MakeConnections();
+	AddVerticiesToGraph();
 	MakeGreatWall();
 	PlaceAll();
 	toFile("rooms.txt");
@@ -22,8 +23,9 @@ Floor::Floor(int number, int numberOfRooms)
 {
 	GenerateRooms(numberOfRooms);
 	SeparateRooms();
-	MakeGraph();
+	MakeNeighborhoodGraph();
 	MakeConnections();
+	AddVerticiesToGraph();
 	MakeGreatWall();
 	PlaceAll();
 	toFile("rooms.txt");
@@ -34,8 +36,9 @@ Floor::Floor(int numberOfRooms, std::string filePath)
 	_number = 0;
 	GenerateRooms(numberOfRooms);
 	SeparateRooms();
-	MakeGraph();
+	MakeNeighborhoodGraph();
 	MakeConnections();
+	AddVerticiesToGraph();
 	MakeGreatWall();
 	PlaceAll();
 	toFile(filePath);
@@ -133,7 +136,7 @@ void Floor::ChooseHallsAndCorridors()
 		_corridors.push_back(_rooms[i]);
 }
 
-void Floor::MakeGraph()
+void Floor::MakeNeighborhoodGraph()
 {
 	ChooseHallsAndCorridors();
 
@@ -434,4 +437,34 @@ vec2 Floor::createRandomPointInHall()
 	int x, y, hallNumber; 
 	hallNumber = rand() % _hallsCount;
 	return _halls[hallNumber].createRandomPoint();
+}
+
+void Floor::AddVerticiesToGraph() 
+{
+	std::vector<vec2> verticies;
+
+	for (unsigned int i = 0; i < _halls.size(); i++) 
+	{
+		for (int j = _halls[i].getT() - 1; j < _halls[i].getB() - 1; j++)
+			for (int k = _halls[i].getL() + 1; k < _halls[i].getR() - 1; k++)
+				verticies.push_back(vec2(j, k));
+	}
+
+	for (unsigned int i = 0; i < _corridors.size(); i++)
+	{
+		for (int j = _corridors[i].getT() - 1; j < _corridors[i].getB() - 1; j++)
+			for (int k = _corridors[i].getL() + 1; k < _corridors[i].getR() - 1; k++)
+				verticies.push_back(vec2(j, k));
+	}
+
+	for (unsigned int i = 0; i < _ways.size(); i++) 
+	{
+		verticies.push_back(_ways[i]);
+	}
+	_graph.addVerticies(verticies);
+}
+
+vec2 Floor::findStepToGoal(vec2 start, vec2 goal)
+{
+	return _graph.findPathStep(start, goal);
 }

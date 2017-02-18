@@ -12,4 +12,7 @@ struct vec2
 	void shift(int dx, int dy);
 
 	vec2 operator+(vec2 summand);
+	vec2 operator+=(vec2 summand);
+	bool operator==(vec2 point);
+	bool operator!=(vec2 point);
 };

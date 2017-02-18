@@ -147,6 +147,7 @@
     <ClCompile Include="src\managers\floorManager.cpp" />
     <ClCompile Include="src\managers\gameManager.cpp" />
     <ClCompile Include="src\managers\playerInputManager.cpp" />
+    <ClCompile Include="src\math\graph.cpp" />
     <ClCompile Include="src\structures\dungeon.cpp" />
     <ClCompile Include="src\units\monster.cpp" />
     <ClCompile Include="src\units\player.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\managers\floorManager.h" />
     <ClInclude Include="src\managers\gameManager.h" />
     <ClInclude Include="src\managers\playerInputManager.h" />
+    <ClInclude Include="src\math\graph.h" />
     <ClInclude Include="src\structures\dungeon.h" />
     <ClInclude Include="src\units\monster.h" />
     <ClInclude Include="src\units\player.h" />

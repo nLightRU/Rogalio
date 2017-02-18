@@ -17,6 +17,8 @@ private:
 	void RespawnMonsters();
 
 	void PlaceMonsters();
+
+	void moveMonster(int index, vec2 position);
 public:
 	FloorManager();
 	void movePlayer(vec2 position);

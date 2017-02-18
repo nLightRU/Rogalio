@@ -48,6 +48,9 @@
     <ClCompile Include="src\ASCII graphic\ASCIIcamera.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\math\graph.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\math\vec2.h">
@@ -78,6 +81,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="src\ASCII graphic\ASCIIcamera.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\graph.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

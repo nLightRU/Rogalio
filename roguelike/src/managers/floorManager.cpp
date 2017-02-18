@@ -2,6 +2,8 @@
 #include <time.h>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
+
 FloorManager::FloorManager() 
 {
 	for (int i = 0; i < _height; i++)
@@ -55,4 +57,22 @@ void FloorManager::movePlayer(vec2 position)
 	_flat[_playersPosition.y][_playersPosition.x] = _floor.getFlatTile(_playersPosition);
 	_flat[position.y][position.x] = '@';
 	_playersPosition = position;
+}
+
+void FloorManager::moveMonster(int index, vec2 position)
+{
+	_flat[_monsters[index].getPosition().y][_monsters[index].getPosition().x] = _floor.getFlatTile(_monsters[index].getPosition());
+	_flat[position.y][position.x] = _monsters[index].getTexture();
+	_monsters[index].setPosition(position);
+}
+
+void FloorManager::makeMonstersTurn() 
+{
+	vec2 position;
+	Monster* monster;
+	for(int i = 0; i < _monsters.size(); i++)
+	{
+		position = _floor.findStepToGoal(_monsters[i].getPosition(), _playersPosition);
+		moveMonster(i, position);
+	}
 }
