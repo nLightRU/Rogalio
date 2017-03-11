@@ -6,15 +6,17 @@
 class FloorManager 
 {
 private:
-	Floor _floor;
+	Floor _flatMap;
+	Graph _floorGraph; 
 
 	const int _height = 300, _width = 300;
 	char _flat[300][300];
 	vec2 _playersPosition;
-	std::vector<Monster> _monsters;
+	std::vector<Monster> _monsters;	
 
 	void RespawnPlayer();
 	void RespawnMonsters();
+	void toFile();
 
 	void PlaceMonsters();
 
@@ -27,4 +29,5 @@ public:
 	vec2 getPlayersPosition() { return _playersPosition; }
 	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
+	std::vector<Monster> getMonsters() { return _monsters; }
 };

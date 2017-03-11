@@ -6,7 +6,7 @@
 #include "floorManager.h"
 enum GAME_STATES {MainMenu, PlayerTurn, MonstersTurn};
 
-class GameManager
+class Game
 {
 private: 
 
@@ -17,17 +17,19 @@ private:
 	ASCIICamera _ASCIIcamera;
 	GAME_STATES _state;
 	FloorManager _floorManager; 
+	Graph _graph;
 
 	void PrintCamera();
 	void PrintUI();
 	void Input();
+	void MonstersTurn();
 	
 	bool checkTile(vec2 position);
 
 	bool inventoryOpened = false;
 public: 
-	GameManager();
+	Game();
 
-	void startGame();
+	void gameLoop();
 
 };

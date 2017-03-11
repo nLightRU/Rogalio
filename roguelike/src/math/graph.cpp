@@ -1,7 +1,11 @@
 #include "graph.h"
+#include <fstream>
+#include <list>
+#include <algorithm>
 
 Graph::Graph() 
 {
+
 }
 
 void Graph::addVerticies(std::vector<vec2> verticies) 
@@ -14,166 +18,147 @@ bool Graph::pointExistInGraph(vec2 point)
 {
 	for (unsigned int i = 0; i < _verticies.size(); i++)
 		if (_verticies[i] == point) return true; 
+	std::ofstream blackListedPoints("Graph points out of graph.txt");
+	blackListedPoints << "point " << point.x << " " << point.y << " don't exist in graph"
+		<< std::endl;
 	return false; 
 }
 
-std::vector<tile> makeLocality(tile position, vec2 goal, int parentIndex) 
+int Graph::findIndexOfPoint(vec2 point) 
 {
-	std::vector<tile> locality;
-	tile tempTile;
-
-	tempTile.coords += vec2(0, 1);
-	tempTile.parent = position.coords;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = position.g + 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = parentIndex;
-	locality.push_back(tempTile);
-
-	tempTile.coords += vec2(1, 0);
-	tempTile.parent = position.coords;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = position.g + 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = parentIndex;
-	locality.push_back(tempTile);
-
-	tempTile.coords += vec2(0, -1);
-	tempTile.parent = position.coords;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = position.g + 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = parentIndex;
-	locality.push_back(tempTile);
-
-	tempTile.coords += vec2(-1, 0);
-	tempTile.parent = position.coords;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = position.g + 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = parentIndex;
-	locality.push_back(tempTile);
-
-	return locality;
+	for (unsigned int i = 0; i < _verticies.size(); i++)
+		if (point == _verticies[i]) return i;
+	return -1;
 }
 
-std::vector<tile> makeStartLocality(vec2 position, vec2 goal) 
+bool inList(vec2 point, std::vector<vec2> points) 
 {
-	std::vector<tile> locality; 
-	tile tempTile; 
-
-	tempTile.coords += vec2(0, 1);
-	tempTile.parent = position;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = 0;
-	locality.push_back(tempTile);
-
-	tempTile.coords += vec2(1, 0);
-	tempTile.parent = position;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = 0;
-	locality.push_back(tempTile);
-
-	tempTile.coords += vec2(0, -1);
-	tempTile.parent = position;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = 0;
-	locality.push_back(tempTile);
-
-	tempTile.coords += vec2(-1, 0);
-	tempTile.parent = position;
-	tempTile.h = tempTile.coords.squareDistance(goal);
-	tempTile.g = 1;
-	tempTile.f = tempTile.g + tempTile.h;
-	tempTile.parentIndex = 0;
-	locality.push_back(tempTile);
-
-	return locality;
-}
- 
-int findPointInOpenList(std::vector<tile> list, vec2 point) 
-{
-	for (unsigned int i = 0; i < list.size(); i++) 
-		if (list[i].coords == point) return i; 
-	return -1; 
+	for (unsigned int i = 0; i < points.size(); i++)
+		if (points[i] == point) return true;
+	return false;
 }
 
-std::vector<vec2> Graph::findPath(vec2 start, vec2 goal) 
+int findIndexInList(vec2 point, std::vector<tile> list)
 {
-	tile tempTile; 
-	tile currTile;
-	std::vector<vec2> path;
-	// g - distance from start in steps
-	// h - minimal distance to goal
-	// f = g + h
+	for (unsigned int i = 0; i < list.size(); i++)
+		if (list[i]._coords == point) return i;
+	return -1;
+}
+
+std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
+{
+	//// g - distance from start in steps
+	//// h - minimal distance to goal
+	//// f = g + h
+
+	//int g, f, h;
+
+	std::ofstream closedListSizeLog("Graph closed list size.txt");
+	std::ofstream openedListSizeLog("Graph opened list size.txt");
+	std::vector<vec2> localityDirs;
+	localityDirs.push_back(vec2(0, 1));
+	localityDirs.push_back(vec2(0, -1));
+	localityDirs.push_back(vec2(1, 0));
+	localityDirs.push_back(vec2(-1, 0));
+
+	//initialization of current tile
+	tile currentTile;
+	currentTile._coords = start;
+	currentTile._g = 0; 
+	currentTile._h = currentTile._coords.squareDistance(goal);
+	currentTile._f = currentTile._g + currentTile._h;
 	
+	std::vector<vec2> path;
 
-	std::vector<tile> openList; 
-	std::vector<tile> closedList;
-
-	tempTile.coords = start;
-
-	closedList.push_back(tempTile);
-
-	// make first locality 
-	openList.push_back(makeStartLocality(start, goal)[0]);
-	openList.push_back(makeStartLocality(start, goal)[1]);
-	openList.push_back(makeStartLocality(start, goal)[2]);
-	openList.push_back(makeStartLocality(start, goal)[3]);
-
-	int currTileIndex;
-	int foundIndex;
-
-	while (!openList.empty()) 
+	
+	if (!pointExistInGraph(start))
 	{
-		// erase points which graph doesn't include
-		for (unsigned int i = 0; i < openList.size(); i++)
-			if (!(pointExistInGraph(openList[i].coords)))
-				openList.erase(openList.begin() + i);
+		path.push_back(start);
+		return path;
+	}
+		 
+	std::vector<tile> openedList;
+	std::vector<tile> closedList;
+	std::vector<vec2> closedListCoords; // for making the path
+	std::vector<vec2> blackList; // for locality points wich is not exist in graph
 
-		tempTile = openList[0]; // initialize var for tile with minimal "f"
-		currTileIndex = 0; // initialize index of tile with minimal "f"
+	closedList.push_back(currentTile);
+	closedListCoords.push_back(currentTile._coords);
 
-		// find a tile with minimal "f"
-		for(unsigned int i = 1; i < openList.size(); i ++)
-			if (tempTile.f > openList[i].f) 
+	tile localityTile;
+
+	tile comparedTile;
+	int comparedTileIndex;
+
+	while (!openedList.empty()) 
+	{
+		// finding locality tile with the smallest value of f
+		// in the opened list 
+		comparedTile = openedList[0];
+		comparedTileIndex = 0;
+		for (int i = 1; i < openedList.size(); i++) 
+			if (comparedTile._f > openedList[i]._f)
 			{
-				currTileIndex = i; 
-				currTile = openList[i];
+				comparedTileIndex = i;
+				comparedTile = openedList[i];
 			}
 
-		for (int i = 0; i < 4; i++)
+		currentTile = openedList[comparedTileIndex];
+		openedList.erase(openedList.begin() + comparedTileIndex);
+
+		openedListSizeLog << "erasing" << std::endl; // logs
+
+		closedList.push_back(currentTile);
+		closedListCoords.push_back(currentTile._coords);
+
+		closedListSizeLog << closedList.size() << std::endl; // logs
+
+		for (int i = 0; i < 4; i++) 
 		{
-			tempTile = makeLocality(openList[currTileIndex], goal, currTileIndex)[i];
-			if (tempTile.coords == goal)
+			localityTile._coords = currentTile._coords + localityDirs[i];
+			localityTile._g = currentTile._g + 1;
+			localityTile._h = localityTile._coords.squareDistance(goal);
+			localityTile._f = localityTile._g + localityTile._h;
+
+			if (localityTile._coords == goal)
 			{
-				closedList.push_back(tempTile);
-				openList.clear();
+				closedList.push_back(localityTile);
+				closedListSizeLog << closedList.size() << std::endl;
+				break;
 			}
-			foundIndex = findPointInOpenList(openList, tempTile.coords) == -1;
-			if (foundIndex == -1)
-				openList.push_back(tempTile);
-			else 
-			{
-				if (openList[foundIndex].g < tempTile.g)
-					tempTile.parent = openList[foundIndex].parent;
-				closedList.push_back(tempTile);
-			}
+
+			if (!pointExistInGraph(localityTile._coords))
+				blackList.push_back(localityTile._coords);
+
+			if (!inList(localityTile._coords, blackList))
+				if (inList(currentTile._coords, closedListCoords))
+				{
+					for (unsigned int i = 0; i < closedList.size(); i++)
+						if (currentTile._coords == closedList[i]._coords)
+						{
+							comparedTile = closedList[i];
+							comparedTileIndex = i;
+						}
+					if (localityTile._g < comparedTile._g)
+					{
+						closedList[comparedTileIndex]._g = localityTile._g;
+						closedList[comparedTileIndex]._parentCoords = localityTile._parentCoords;
+					}
+				}
+				else
+				{
+					openedList.push_back(localityTile);
+					openedListSizeLog << openedList.size() << std::endl;
+				}
 		}
 	}
 
-	path.push_back(closedList[closedList.size() - 1].coords);
-	tempTile = closedList[closedList.size() - 1];
-	while (tempTile.coords != start)
+	currentTile = closedList[closedList.size() - 1];
+
+	while (currentTile._coords != start)
 	{
-		tempTile = closedList[tempTile.parentIndex];
-		path.push_back(tempTile.coords);
+		path.push_back(currentTile._parentCoords);
+		currentTile = closedList[findIndexInList(currentTile._parentCoords, closedList)];
 	}
 
 	return path;
@@ -182,5 +167,5 @@ std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
 vec2 Graph::findPathStep(vec2 start, vec2 goal) 
 {
 	std::vector<vec2> path = findPath(start, goal);
-	return path[path.size() - 1];
+	return path[0];
 }

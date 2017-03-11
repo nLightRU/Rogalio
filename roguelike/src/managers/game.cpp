@@ -1,8 +1,8 @@
-#include "gameManager.h"
+#include "game.h"
 #include "../math/vec2.h"
 #include <iostream>
 
-GameManager::GameManager()
+Game::Game()
 {
 	system("cls");
 	_player.setPosition(_floorManager.getPlayersPosition());
@@ -10,19 +10,19 @@ GameManager::GameManager()
 	_forbiddenTextures.push_back('m');
 }
 
-void GameManager::startGame()
+void Game::gameLoop()
 {	
 	std::cout << "Press any key to start game" << std::endl;
 	while (_playerInputManager.getInputType() != Exit)
 	{
 		Input();
-		_floorManager.makeMonstersTurn();
+		MonstersTurn();
 		PrintCamera();				
 		PrintUI();
 	}
 }  
 
-void GameManager::PrintCamera() 
+void Game::PrintCamera() 
 {
 	char cameraBuff[21][21];
 
@@ -63,7 +63,7 @@ void GameManager::PrintCamera()
 	_ASCIIcamera.print();
 }
 
-void GameManager::Input() 
+void Game::Input() 
 {
 	_playerInputManager.input();
 
@@ -84,7 +84,7 @@ void GameManager::Input()
 	}
 }
 
-bool GameManager::checkTile(vec2 position) 
+bool Game::checkTile(vec2 position) 
 {
 	for (unsigned int i = 0; i < _forbiddenTextures.size(); i++) 
 		if (_floorManager.getFlatTile(position) == _forbiddenTextures[i])
@@ -92,7 +92,7 @@ bool GameManager::checkTile(vec2 position)
 	return true;
 }
 
-void GameManager::PrintUI()
+void Game::PrintUI()
 {
 	std::cout << std::endl;
 	std::cout << "Health " << _player.getHealth() << "/" << _player.getMaxHealth();
@@ -107,4 +107,9 @@ void GameManager::PrintUI()
 	std::cout << "s - down" << std::endl;
 	std::cout << "d - right" << std::endl;
 	std::cout << "p - exit" << std::endl;
+}
+
+void Game::MonstersTurn() 
+{
+	_floorManager.makeMonstersTurn();
 }

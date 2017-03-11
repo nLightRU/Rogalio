@@ -35,16 +35,12 @@ private:
 	void MakeNeighborhoodGraph();
 	void MakeConnections();
 	void ChooseHallsAndCorridors();
-	void AddVerticiesToGraph();
 
 	// methods for placing floor in the flat
 	void PlaceRooms();
 	void PlaceConnections();
 	void PlaceAll();
 	void toFile(std::string FilePath);
-
-	// ad hoc for broken corridors 
-	void MakeGreatWall();
 
 	// additional methods for generating floor
 	void includeRoomWithPoint(vec2 point);
@@ -66,8 +62,7 @@ public:
 	int getNumberOfRooms() { return _rooms.size(); }
 	vec2 createRandomPointInHall();
 	bool isPointInAnyRoom(vec2 point);
-
-	vec2 findStepToGoal(vec2 start, vec2 goal);
+	std::vector<vec2> collectPoints();
 
 	int getW() { return _width; }
 	int getH() { return _height; }

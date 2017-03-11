@@ -60,6 +60,11 @@ void Monster::setDamage(int minDamage, int maxDamage)
 	_maxDamage = maxDamage;
 }
 
+void Monster::setTexture(char texture) 
+{
+	_texture = texture;
+}
+
 int Monster::makeHit()
 {
 	srand(time(NULL));

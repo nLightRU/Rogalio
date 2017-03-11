@@ -4,14 +4,12 @@
 #include <time.h>
 #include "math\vec2.h"
 #include "structures\floor.h"
-#include "managers\gameManager.h"
+#include "managers\game.h"
 
 int main() 
 {
-	//system("color 0F");
-
-	GameManager manager;
-	manager.startGame();
+	Game game;
+	game.gameLoop();
 
 	system("pause");
 	return 0;

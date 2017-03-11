@@ -30,6 +30,7 @@ public:
 	void setName(std::string name);
 	void setPosition(vec2 coords);
 	void setDamage(int minDamage, int maxDamage);
+	void setTexture(char texture);
 
 	int makeHit();
 	void move(int dx, int dy); 

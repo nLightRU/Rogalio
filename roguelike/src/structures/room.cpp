@@ -123,8 +123,12 @@ bool Room::includePoint(vec2 point)
 
 vec2 Room::createRandomPoint() 
 {
+	int x1 = _left + 1;
+	int x2 = _right - 1;
+	int y1 = _top + 1;
+	int y2 = _bottom - 1;
 	int x, y; 
-	x = rand() % (_right - _left + 1 + _left) + _left;
-	y = rand() % (_bottom - _top + 1) + _top;
+	x = rand() % (x2 - x1 + 1) + x1;
+	y = rand() % (y2 - y1 + 1) + y1;
 	return vec2(x, y);
 }

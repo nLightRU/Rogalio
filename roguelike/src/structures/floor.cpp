@@ -13,10 +13,7 @@ Floor::Floor()
 	SeparateRooms();
 	MakeNeighborhoodGraph();
 	MakeConnections();
-	AddVerticiesToGraph();
-	MakeGreatWall();
 	PlaceAll();
-	toFile("rooms.txt");
 }
 
 Floor::Floor(int number, int numberOfRooms)
@@ -25,10 +22,7 @@ Floor::Floor(int number, int numberOfRooms)
 	SeparateRooms();
 	MakeNeighborhoodGraph();
 	MakeConnections();
-	AddVerticiesToGraph();
-	MakeGreatWall();
 	PlaceAll();
-	toFile("rooms.txt");
 }
 
 Floor::Floor(int numberOfRooms, std::string filePath)
@@ -38,8 +32,6 @@ Floor::Floor(int numberOfRooms, std::string filePath)
 	SeparateRooms();
 	MakeNeighborhoodGraph();
 	MakeConnections();
-	AddVerticiesToGraph();
-	MakeGreatWall();
 	PlaceAll();
 	toFile(filePath);
 }
@@ -410,28 +402,6 @@ void Floor::PlaceAll()
 	PlaceConnections();
 }
 
-void Floor::MakeGreatWall() 
-{
-	int maxX, maxY, minX, minY;
-
-	maxX = _rooms[0].getX();
-	maxY = _rooms[0].getY();
-	minX = _rooms[0].getX();
-	minY = _rooms[0].getY();
-
-	for (unsigned int i = 1; i < _rooms.size(); i++)
-	{
-		if (minX > _rooms[i].getX()) minX = _rooms[i].getX();
-		if (maxX < _rooms[i].getX()) maxX = _rooms[i].getX();
-		if (minY > _rooms[i].getY()) minY = _rooms[i].getY();
-		if (maxY < _rooms[i].getY()) maxY = _rooms[i].getY();
-	}
-	if (minY - 1 < 0) minY = 0;
-	Room greatRoom = Room(minX - 1, minY -1, maxX + 2, maxY + 2);
-	greatRoom.includeInFloor();
-	_rooms.push_back(greatRoom);
-}
-
 vec2 Floor::createRandomPointInHall() 
 {
 	int x, y, hallNumber; 
@@ -439,32 +409,28 @@ vec2 Floor::createRandomPointInHall()
 	return _halls[hallNumber].createRandomPoint();
 }
 
-void Floor::AddVerticiesToGraph() 
+std::vector<vec2> Floor::collectPoints() 
 {
-	std::vector<vec2> verticies;
-
-	for (unsigned int i = 0; i < _halls.size(); i++) 
+	std::vector<vec2> points;
+	vec2 point;
+	for (unsigned int i = 0; i < _rooms.size() - 1; i++)
 	{
-		for (int j = _halls[i].getT() - 1; j < _halls[i].getB() - 1; j++)
-			for (int k = _halls[i].getL() + 1; k < _halls[i].getR() - 1; k++)
-				verticies.push_back(vec2(j, k));
+		if (_rooms[i].isInclude())
+		{
+			for (int y = _rooms[i].getT() + 1; y < _rooms[i].getB(); y++)
+				for (int x = _rooms[i].getL() + 1; x < _rooms[i].getR(); x++)
+				{
+					point.x = x;
+					point.y = y;
+					points.push_back(point);
+				}
+		}
 	}
-
-	for (unsigned int i = 0; i < _corridors.size(); i++)
-	{
-		for (int j = _corridors[i].getT() - 1; j < _corridors[i].getB() - 1; j++)
-			for (int k = _corridors[i].getL() + 1; k < _corridors[i].getR() - 1; k++)
-				verticies.push_back(vec2(j, k));
-	}
-
-	for (unsigned int i = 0; i < _ways.size(); i++) 
-	{
-		verticies.push_back(_ways[i]);
-	}
-	_graph.addVerticies(verticies);
-}
-
-vec2 Floor::findStepToGoal(vec2 start, vec2 goal)
-{
-	return _graph.findPathStep(start, goal);
+	std::ofstream verticies("Floor collected points.txt");
+	for (unsigned int i = 0; i < _ways.size(); i++)
+		points.push_back(_ways[i]);
+	for (unsigned int i = 0; i < points.size(); i++) 
+		verticies << points[i].x << " " << points[i].y << std::endl;
+	
+	return points;
 }
