@@ -38,7 +38,7 @@ bool vec2::operator!=(vec2 point)
 	return (this->x != point.x || this->y != point.y);
 }
 
-vec2 vec2::operator+=(vec2 summand) 
-{
-	return vec2(this->x + summand.x, this->y + summand.y);
-}
+//vec2 vec2::operator+=(vec2 summand) 
+//{
+//	return vec2(this->x + summand.x, this->y + summand.y);
+//}

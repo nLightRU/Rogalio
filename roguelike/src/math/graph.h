@@ -28,7 +28,6 @@ class Graph
 private: 
 	std::vector<vec2> _verticies;
 	std::vector<std::pair<vec2, vec2>> _edges;
-	bool pointExistInGraph(vec2 point);
 	int findIndexOfPoint(vec2 point);
 public: 
 	Graph();
@@ -37,4 +36,5 @@ public:
 	vec2 findPathStep(vec2 start, vec2 goal);
 	std::vector<vec2> getVerticies() { return _verticies; }
 	vec2 getRandomVertex() { return _verticies[rand() % _verticies.size()]; }
+	bool existPoint(vec2 point);
 };

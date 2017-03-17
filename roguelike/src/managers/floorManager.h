@@ -14,6 +14,8 @@ private:
 	vec2 _playersPosition;
 	std::vector<Monster> _monsters;	
 
+	int _monstersNumber = 1;
+
 	void RespawnPlayer();
 	void RespawnMonsters();
 	void toFile();
@@ -21,6 +23,8 @@ private:
 	void PlaceMonsters();
 
 	void moveMonster(int index, vec2 position);
+	void placePoint(vec2 position, char symbol);
+	void placePoint(int x, int y, char symbol);
 public:
 	FloorManager();
 	void movePlayer(vec2 position);
