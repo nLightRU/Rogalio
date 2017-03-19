@@ -167,20 +167,20 @@ void Floor::MakeNeighborhoodGraph()
 
 void Floor::includeRoomWithPoint(vec2 point)
 {
-	for (int i = 0; i < _rooms.size(); i++)
+	for (unsigned int i = 0; i < _rooms.size(); i++)
 		if (_rooms[i].includePoint(point)) _rooms[i].includeInFloor();
 }
 
 bool Floor::isPointInAnyRoom(vec2 point)
 {
-	for (int i = 0; i < _rooms.size(); i++)
+	for (unsigned int i = 0; i < _rooms.size(); i++)
 		if (_rooms[i].includePoint(point)) return true;
 	return false;
 }
 
 bool Floor::checkPointIsADoor(vec2 point)
 {
-	for (int i = 0; i < _halls.size(); i++)
+	for (unsigned int i = 0; i < _halls.size(); i++)
 	{
 		if (point.x > _rooms[i].getL() && point.x < _rooms[i].getR())
 			if (point.y == _rooms[i].getB() || point.y == _rooms[i].getT())
@@ -190,7 +190,7 @@ bool Floor::checkPointIsADoor(vec2 point)
 				return true;
 	}
 
-	for (int i = 0; i < _corridors.size(); i++)
+	for (unsigned int i = 0; i < _corridors.size(); i++)
 	{
 		if (point.x > _rooms[i].getL() && point.x < _rooms[i].getR())
 			if (point.y == _rooms[i].getB() || point.y == _rooms[i].getT())
@@ -231,7 +231,7 @@ void Floor::MakeConnections()
 	vec2 start;
 	int indexOfJoining;
 
-	for (int i = 0; i < _halls.size(); i++)
+	for (unsigned int i = 0; i < _halls.size(); i++)
 	{
 		start = _halls[i].getCenter();
 		point = _halls[i].getCenter();
@@ -408,7 +408,7 @@ void Floor::PlaceAll()
 
 vec2 Floor::createRandomPointInHall() 
 {
-	int x, y, hallNumber; 
+	int hallNumber; 
 	hallNumber = rand() % _hallsCount;
 	return _halls[hallNumber].createRandomPoint();
 }
@@ -421,7 +421,7 @@ std::vector<vec2> Floor::collectPoints()
 		if (_rooms[i].isInclude())
 			for (int y = _rooms[i].getT() + 1; y < _rooms[i].getB(); y++)
 				for (int x = _rooms[i].getL() + 1; x < _rooms[i].getR(); x++)
-					points.push_back(vec2(x,y));
+					points.push_back(vec2(x, y));
 
 	for (unsigned int i = 0; i < _ways.size(); i++)
 		points.push_back(_ways[i]);

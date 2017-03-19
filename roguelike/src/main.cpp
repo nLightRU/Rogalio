@@ -24,9 +24,12 @@ void makeVerticities()
 
 void fillMap()
 {
-	for (unsigned int i = 0; i < verticities.size(); i++) 
+	for (int y = 0; y < height; y++)
 	{
-		map[verticities[i].y][verticities[i].x] = '.';
+		for (int x = 0; x < width; x++)
+		{
+			map[x][y] = '.';
+		}
 	}
 	for (int i = 0; i < 20; i++)
 	{
@@ -41,13 +44,9 @@ void respawnPlayerAndMonster()
 {
 	playersPos.x = rand() % (18 - 1) + 1;
 	playersPos.y = rand() % (18 - 1) + 1;
-	playersPos.y = 18 - playersPos.y;
-
+	map[playersPos.x][playersPos.y] = '@';
 	monsterPos.x = rand() % (18 - 1) + 1;
 	monsterPos.y = rand() % (18 - 1) + 1;
-	monsterPos.y = 18 - monsterPos.y;
-
-	map[playersPos.x][playersPos.y] = '@';
 	map[monsterPos.x][monsterPos.y] = 'm';
 }
 
@@ -68,21 +67,26 @@ void makeFlat()
 	respawnPlayerAndMonster();
 }
 
+
 void showAStar() 
 {
 	srand(time(NULL));
-	makeFlat();
 	Graph graph;
+	makeFlat();
+
 	graph.addVerticies(verticities);
-	std::vector<vec2> path = graph.findPath(playersPos, monsterPos);
+	std::vector<vec2> path = graph.findPath(monsterPos, playersPos);
+
 	for (unsigned int i = 0; i < path.size(); i++)
-		map[path[i].y][path[i].x] = 'o';
+		map[path[i].y][path[i].x] = (char)(49 + i);
+
 	printFlat();
 }
 
 int main()
 {
-	showAStar();
+	Game game; 
+	game.gameLoop();
 	system("pause");
 	return 0;
 }
