@@ -66,11 +66,13 @@ void FloorManager::moveMonster(int index, vec2 position)
 
 void FloorManager::makeMonstersTurn() 
 {
-	vec2 position;
+	vec2 positionToMove;
 	for(int i = 0; i < _monsters.size(); i++)
 	{
-		position = _floorGraph.findPathStep(_monsters[i].getPosition(), _playersPosition);
-		moveMonster(i, position);
+		if (_playersPosition.squareDistance(_monsters[i].getPosition()) < 200) {
+			positionToMove = _floorGraph.findPathStep(_monsters[i].getPosition(), _playersPosition);
+			moveMonster(i, positionToMove);
+		}
 	}
 }
 

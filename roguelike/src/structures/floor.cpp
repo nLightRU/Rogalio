@@ -400,10 +400,6 @@ void Floor::PlaceAll()
 
 	PlaceRooms();
 	PlaceConnections();
-
-	std::vector<vec2> points = collectPoints();
-	for (unsigned int i = 0; i < points.size(); i++)
-		_flat[points[i].y][points[i].x] = '.';
 }
 
 vec2 Floor::createRandomPointInHall() 

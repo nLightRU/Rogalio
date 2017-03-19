@@ -34,8 +34,10 @@ bool Graph::inGraph(vec2 point)
 	return false;
 }
 
-std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
+std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 {
+	vec2 start = _goal; 
+	vec2 goal = _start;
 	std::vector<tile> openedList;
 	std::vector<tile> closedList;
 	std::vector<vec2> localityDirs;
@@ -47,6 +49,7 @@ std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
 	tile startTile;
 	startTile.g = 0;
 	startTile.h = start.squareDistance(goal);
+	startTile.countFunction();
 	startTile.coords = start;
 
 	tile startLocalityTile;
@@ -75,7 +78,7 @@ std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
 				currentTile = openedList[i];
 				currentTileIndex = i;
 			}
-
+ 
 		openedList.erase(openedList.begin() + currentTileIndex);
 		closedList.push_back(currentTile);
 
@@ -99,11 +102,13 @@ std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
 			}
 
 			int indexOfTile = findInClosedList(localityTile, closedList);
-			if (indexOfTile == -1)
+			if (indexOfTile == -1) {
 				openedList.push_back(localityTile);
+			}
 			else
-				if (localityTile.g < closedList[indexOfTile].g)
+				if (localityTile.g < closedList[indexOfTile].g) {
 					closedList[indexOfTile] = localityTile;
+				}
 		}
 	}
 
@@ -118,7 +123,6 @@ std::vector<vec2> Graph::findPath(vec2 start, vec2 goal)
 		pathTile = closedList[indexOfPoint];
 		path.push_back(point);
 	}
-	path.pop_back();
 	return path;
 }
 
