@@ -14,7 +14,7 @@ private:
 	vec2 _playersPosition;
 	std::vector<Monster> _monsters;	
 
-	int _monstersNumber = 1;
+	int _monstersNumber = 5;
 
 	void RespawnPlayer();
 	void RespawnMonsters();

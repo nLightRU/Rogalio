@@ -16,7 +16,6 @@ class Graph
 private: 
 	std::vector<vec2> _verticies;
 	std::vector<std::pair<vec2, vec2>> _edges;
-	int findIndexOfPoint(vec2 point);
 public: 
 	Graph();
 	void addVerticies(std::vector<vec2> verticies);

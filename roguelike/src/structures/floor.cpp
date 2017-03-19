@@ -400,6 +400,10 @@ void Floor::PlaceAll()
 
 	PlaceRooms();
 	PlaceConnections();
+
+	std::vector<vec2> points = collectPoints();
+	for (unsigned int i = 0; i < points.size(); i++)
+		_flat[points[i].y][points[i].x] = '.';
 }
 
 vec2 Floor::createRandomPointInHall() 
@@ -412,25 +416,15 @@ vec2 Floor::createRandomPointInHall()
 std::vector<vec2> Floor::collectPoints() 
 {
 	std::vector<vec2> points;
-	vec2 point;
+
 	for (unsigned int i = 0; i < _rooms.size() - 1; i++)
-	{
 		if (_rooms[i].isInclude())
-		{
 			for (int y = _rooms[i].getT() + 1; y < _rooms[i].getB(); y++)
 				for (int x = _rooms[i].getL() + 1; x < _rooms[i].getR(); x++)
-				{
-					point.x = x;
-					point.y = y;
-					points.push_back(point);
-				}
-		}
-	}
-	std::ofstream verticies("Floor collected points.txt");
+					points.push_back(vec2(x,y));
+
 	for (unsigned int i = 0; i < _ways.size(); i++)
 		points.push_back(_ways[i]);
-	for (unsigned int i = 0; i < points.size(); i++) 
-		verticies << points[i].x << " " << points[i].y << std::endl;
 	
 	return points;
 }

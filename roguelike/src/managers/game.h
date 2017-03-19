@@ -16,13 +16,13 @@ private:
 	Player _player;
 	ASCIICamera _ASCIIcamera;
 	GAME_STATES _state;
-	FloorManager _floorManager; 
-	Graph _graph;
+	FloorManager _floorManager;
 
 	void PrintCamera();
 	void PrintUI();
 	void Input();
 	void MonstersTurn();
+	void PrintScreen();
 	
 	bool checkTile(vec2 position);
 

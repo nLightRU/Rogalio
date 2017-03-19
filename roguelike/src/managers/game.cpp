@@ -22,7 +22,7 @@ void Game::gameLoop()
 	}
 }  
 
-void Game::PrintCamera() 
+void Game::PrintCamera()
 {
 	char cameraBuff[21][21];
 

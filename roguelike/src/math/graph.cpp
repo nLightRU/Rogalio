@@ -37,13 +37,14 @@ bool Graph::inGraph(vec2 point)
 
 std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 {
-	vec2 goal;
-	vec2 start;
+	std::ofstream listLog("path finding.txt");
+	std::ofstream pathLog("pathfinding calls.txt");
+	pathLog << "verticies: " << _verticies.size() << std::endl;
+	pathLog << "from " << _start.x << " " << _start.y;
+	pathLog << " to " << _goal.x << " " << _goal.y << std::endl;
 
-	goal.x = _start.y;
-	goal.y = _start.x;
-	start.x = _goal.y;
-	start.y = _goal.x;
+	vec2 goal = _start;
+	vec2 start = _goal;
 
 	std::vector<tile> openedList;
 	std::vector<tile> closedList;
@@ -61,6 +62,7 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 	tile startLocalityTile;
 	startLocalityTile.g = 1;
 	startLocalityTile.parent = start;
+
 	for (int i = 0; i < 4; i++)
 	{
 		startLocalityTile.coords = start + localityDirs[i];
@@ -88,6 +90,7 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 		openedList.erase(openedList.begin() + currentTileIndex);
 		closedList.push_back(currentTile);
 
+		// check locality
 		tile localityTile;
 		for (int i = 0; i < 4; i++)
 		{
@@ -123,10 +126,13 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 	while (point != start)
 	{
 		point = pathTile.parent;
+		pathLog << point.y << " " << point.x << std::endl;
+		if (point == start) break;
 		indexOfPoint = findInClosedList(point, closedList);
 		pathTile = closedList[indexOfPoint];
 		path.push_back(point);
 	}
+	pathLog << " path size " << path.size() << std::endl;
 	return path;
 }
 

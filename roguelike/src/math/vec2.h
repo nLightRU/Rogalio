@@ -10,9 +10,9 @@ struct vec2
 
 	int squareDistance(vec2 point);
 	void shift(int dx, int dy);
+	void inverseCoordinates();
 
 	vec2 operator+(vec2 summand);
-	vec2 operator+=(vec2 summand);
 	bool operator==(vec2 point);
 	bool operator!=(vec2 point);
 };
