@@ -34,5 +34,7 @@ public:
 
 	int makeHit();
 	void move(int dx, int dy); 
+	void decreaseHealth(int damage) { _health -= damage; }
+	void decreaseMana(int consumption) { _mana -= consumption; }
 
 };

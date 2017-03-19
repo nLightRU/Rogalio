@@ -7,7 +7,6 @@ Game::Game()
 	system("cls");
 	_player.setPosition(_floorManager.getPlayersPosition());
 	_forbiddenTextures.push_back('#');
-	_forbiddenTextures.push_back('m');
 }
 
 void Game::gameLoop()
@@ -15,7 +14,7 @@ void Game::gameLoop()
 	std::cout << "Press any key to start game" << std::endl;
 	while (_playerInputManager.getInputType() != Exit)
 	{
-		Input();
+		PlayersTurn();
 		MonstersTurn();
 		PrintCamera();				
 		PrintUI();
@@ -63,7 +62,7 @@ void Game::PrintCamera()
 	_ASCIIcamera.print();
 }
 
-void Game::Input() 
+void Game::PlayersTurn() 
 {
 	_playerInputManager.input();
 
@@ -77,11 +76,8 @@ void Game::Input()
 	vec2 movingDirection = _playerInputManager.getMovingDirection();
 	vec2 tile = vec2(_player.getPosition() + movingDirection);
 
-	if (checkTile(tile) && !inventoryOpened)
-	{
-		_player.setPosition(_player.getPosition() + movingDirection);
-		_floorManager.movePlayer(_player.getPosition());
-	}
+	if (findMonsterOnPosition(tile) != -1)
+		_floorManager.hitMonster(_player.makeHit(), tile);
 }
 
 bool Game::checkTile(vec2 position) 
@@ -111,5 +107,14 @@ void Game::PrintUI()
 
 void Game::MonstersTurn() 
 {
-	_floorManager.makeMonstersTurn();
+	_player.decreaseHealth(_floorManager.makeMonstersTurn());
+}
+
+int Game::findMonsterOnPosition(vec2 position) 
+{
+	for (unsigned int i = 0; i < _floorManager.getMonsters().size(); i++)
+		if (_floorManager.getMonsters()[i].getPosition() == position)
+			return i;
+
+	return -1;
 }

@@ -22,9 +22,10 @@ private:
 	void PrintUI();
 	void Input();
 	void MonstersTurn();
-	void PrintScreen();
+	void PlayersTurn();
 	
 	bool checkTile(vec2 position);
+	int findMonsterOnPosition(vec2 position);
 
 	bool inventoryOpened = false;
 public: 

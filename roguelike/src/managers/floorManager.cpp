@@ -51,6 +51,10 @@ void FloorManager::PlaceMonsters()
 
 void FloorManager::movePlayer(vec2 position) 
 {
+	
+	if (checkTileIsAMonsterPosition(position)) 
+		return;
+
 	_flat[_playersPosition.y][_playersPosition.x] = _flatMap.getFlatTile(_playersPosition);
 	_flat[position.y][position.x] = '@';
 	_playersPosition = position;
@@ -64,16 +68,20 @@ void FloorManager::moveMonster(int index, vec2 position)
 	_flat[position.y][position.x] = _monsters[index].getTexture();
 }
 
-void FloorManager::makeMonstersTurn() 
+int FloorManager::makeMonstersTurn() 
 {
 	vec2 positionToMove;
+	int damage = 0;
 	for(int i = 0; i < _monsters.size(); i++)
 	{
-		if (_playersPosition.squareDistance(_monsters[i].getPosition()) < 200) {
+		if (_playersPosition.squareDistance(_monsters[i].getPosition()) < 200) 
 			positionToMove = _floorGraph.findPathStep(_monsters[i].getPosition(), _playersPosition);
+		if (positionToMove == _playersPosition)
+			damage += _monsters[i].makeHit();
+		else
 			moveMonster(i, positionToMove);
-		}
 	}
+	return damage;
 }
 
 void FloorManager::toFile() 
@@ -95,4 +103,25 @@ void FloorManager::placePoint(vec2 position, char symbol)
 void FloorManager::placePoint(int x, int y, char symbol)
 {
 	_flat[y][x] = symbol;
+}
+
+bool FloorManager::checkTileIsAMonsterPosition(vec2 position)
+{
+	for (unsigned int i = 0; i < _monsters.size(); i++)
+		if (_monsters[i].getPosition() == position)
+			return true;
+
+	return false;
+}
+
+void FloorManager::hitMonster(int damage, vec2 position) 
+{
+	for (unsigned int i = 0; i < _monsters.size(); i++)
+		if (_monsters[i].getPosition() == position) 
+		{
+			_monsters[i].decreaseHealth(damage);
+
+			if (_monsters[i].getHealth() <= 0)
+				_monsters.erase(_monsters.begin() + i);
+		}
 }

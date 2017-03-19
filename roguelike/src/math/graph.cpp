@@ -129,5 +129,5 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 vec2 Graph::findPathStep(vec2 start, vec2 goal)
 {
 	std::vector<vec2> path = findPath(start, goal);
-	return path[0];
+	return path[1];
 }

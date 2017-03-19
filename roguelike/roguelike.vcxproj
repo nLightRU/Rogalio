@@ -149,6 +149,7 @@
     <ClCompile Include="src\managers\playerInputManager.cpp" />
     <ClCompile Include="src\math\graph.cpp" />
     <ClCompile Include="src\structures\dungeon.cpp" />
+    <ClCompile Include="src\units\item.cpp" />
     <ClCompile Include="src\units\monster.cpp" />
     <ClCompile Include="src\units\player.cpp" />
     <ClCompile Include="src\structures\room.cpp" />
@@ -162,6 +163,8 @@
     <ClInclude Include="src\managers\playerInputManager.h" />
     <ClInclude Include="src\math\graph.h" />
     <ClInclude Include="src\structures\dungeon.h" />
+    <ClInclude Include="src\units\chest.h" />
+    <ClInclude Include="src\units\item.h" />
     <ClInclude Include="src\units\monster.h" />
     <ClInclude Include="src\units\player.h" />
     <ClInclude Include="src\structures\floor.h" />

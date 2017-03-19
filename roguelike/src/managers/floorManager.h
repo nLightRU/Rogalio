@@ -14,7 +14,7 @@ private:
 	vec2 _playersPosition;
 	std::vector<Monster> _monsters;	
 
-	int _monstersNumber = 1;
+	int _monstersNumber = 5;
 
 	void RespawnPlayer();
 	void RespawnMonsters();
@@ -25,10 +25,13 @@ private:
 	void moveMonster(int index, vec2 position);
 	void placePoint(vec2 position, char symbol);
 	void placePoint(int x, int y, char symbol);
+
+	bool checkTileIsAMonsterPosition(vec2 position);
 public:
 	FloorManager();
 	void movePlayer(vec2 position);
-	void makeMonstersTurn();
+	int makeMonstersTurn();
+	void hitMonster(int damage, vec2 position);
 
 	vec2 getPlayersPosition() { return _playersPosition; }
 	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }

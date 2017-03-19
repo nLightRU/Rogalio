@@ -6,6 +6,7 @@
 #include "structures\floor.h"
 #include "math\graph.h"
 #include "managers\game.h"
+#include <Windows.h>
 
 const int height = 20, width = 20;
 char map[height][width];
@@ -83,10 +84,33 @@ void showAStar()
 	printFlat();
 }
 
+void TextColor(unsigned char attr)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attr);
+	printf("String!");
+}
+
+/*
+FOREGROUND_BLUE
+FOREGROUND_GREEN
+FOREGROUND_RED
+FOREGROUND_INTENSITY
+
+BACKGROUND_BLUE
+BACKGROUND_GREEN
+BACKGROUND_RED
+BACKGROUND_INTENSITY
+*/
+
 int main()
 {
+	//TextColor(FOREGROUND_BLUE + FOREGROUND_GREEN + FOREGROUND_INTENSITY);
+
 	Game game; 
 	game.gameLoop();
+
+	
+
 	system("pause");
 	return 0;
 }

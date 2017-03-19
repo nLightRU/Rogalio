@@ -1,5 +1,7 @@
 #pragma once
 #include "../math/vec2.h"
+#include <cstdlib>
+
 class Player
 {
 private:
@@ -16,6 +18,12 @@ public:
 	int getHealth() { return _health; }
 	int getMaxMana() { return _maxMana; }
 	int getMana() { return _mana; }
+
+	int makeHit() { return rand() % (_maxDamage - _minDamage + 1) + _minDamage; }
+
+	void decreaseHealth(int damage) { _health -= damage; }
+	void decreaseMana(int consumption) { _mana -= consumption; }
+
 	void setPosition(vec2 position);
 	void setPosition(int x, int y);
 	void shift(int dx, int dy);
