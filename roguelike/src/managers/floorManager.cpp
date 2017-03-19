@@ -18,24 +18,6 @@ FloorManager::FloorManager()
 	RespawnMonsters();
 	PlaceMonsters();
 
-
-	// logging stuff
-	log << "PLAYERS POSITION " << _playersPosition.x << " " << _playersPosition.y << " ";
-	if (!_floorGraph.existPoint(_playersPosition))
-		log << "out";
-	log << std::endl;
-	
-	for (unsigned int i = 0; i < _monsters.size(); i++) 
-	{
-		log << "MONSTER " << i + 1 << " " << _monsters[i].getPosition().x << " "
-			<< _monsters[i].getPosition().y << " ";
-		if (!_floorGraph.existPoint(_monsters[i].getPosition()))
-			log << "out";
-		log << std::endl;
-	}
-
-	log << "VERTICIES" << std::endl;
-
 	for (unsigned int i = 0; i < _floorGraph.getVerticies().size(); i++) 
 	{
 		log << _floorGraph.getVerticies()[i].x << " ";
