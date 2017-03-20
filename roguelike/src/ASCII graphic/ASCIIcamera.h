@@ -1,5 +1,6 @@
 #pragma once
- 
+#include <vector> 
+
 class ASCIICamera 
 {
 private: 
@@ -9,4 +10,7 @@ public:
 	ASCIICamera();
 	void print();
 	void setBuff(char buff[21][21]);
+	int getBuffHeight() { return _buffHeight; }
+	int getBuffWidth() { return _buffWidth; }
+	std::vector<char> showBuffLine(int index);
 };

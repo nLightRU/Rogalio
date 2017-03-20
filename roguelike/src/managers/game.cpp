@@ -13,10 +13,15 @@ void Game::gameLoop()
 {	
 	std::cout << "Press any key to start game" << std::endl;
 	bool playerDeath;
-	while (_playerInputManager.getInputType() != Exit)
+	while (_playerInputHandler.getInputType() != Exit)
 	{
 		if (PlayersTurn()) 
 		{
+			if (_dungeon.getCurrentFloorNumber() == _dungeon.getFloors().size()) 
+			{
+				std::cout << "You end this game, ya vas pozdravlyau" << std::endl;
+				break;
+			}
 			_floorManager.initialize(_dungeon.getNextFloor());
 			_player.setPosition(_floorManager.getPlayersPosition());
 		}
@@ -74,35 +79,27 @@ void Game::PrintCamera()
 
 bool Game::PlayersTurn() 
 {
-	_playerInputManager.input();
+	_playerInputHandler.input();
 
-	if (_playerInputManager.getInputType() == OpenInventory)
+	if (_playerInputHandler.getInputType() == OpenInventory)
 	{
 		if (inventoryOpened)
 			inventoryOpened = false;
 		else inventoryOpened = true;
 	}
 
-	vec2 movingDirection = _playerInputManager.getMovingDirection();
+	vec2 movingDirection = _playerInputHandler.getMovingDirection();
 	vec2 tile = vec2(_player.getPosition() + movingDirection);
 
 	if (findMonsterOnPosition(tile) != -1)
 		_floorManager.hitMonster(_player.makeHit(), tile);
 	else if (tile == _floorManager.getTrapPosition()) return true;
-	else if (checkTile(tile)) 
+	else if(_floorManager.checkTile(tile))
 		{
 			_player.setPosition(_player.getPosition() + movingDirection);
 			_floorManager.movePlayer(_player.getPosition());
 		}
 	return false;
-}
-
-bool Game::checkTile(vec2 position) 
-{
-	for (unsigned int i = 0; i < _forbiddenTextures.size(); i++) 
-		if (_floorManager.getFlatTile(position) == _forbiddenTextures[i])
-			return false;
-	return true;
 }
 
 void Game::PrintUI()

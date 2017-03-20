@@ -26,7 +26,6 @@ private:
 
 	bool checkTileIsAMonsterPosition(vec2 position);
 	bool checkPlayerNear(Monster monster);
-	bool checkTile(vec2 tile);
 public:
 	FloorManager();
 	FloorManager(Floor floor);
@@ -44,4 +43,6 @@ public:
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 
 	std::vector<Monster> getMonsters() { return _monsters; }
+
+	bool checkTile(vec2 tile);
 };

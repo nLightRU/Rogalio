@@ -1,6 +1,7 @@
 #pragma once
 #include "room.h"
 #include "../units/monster.h"
+#include "../units/chest.h"
 #include "../math/graph.h"
 #include <vector>
 #include <string>
@@ -22,6 +23,7 @@ private:
 
 	// vectors for content
 	std::vector<Monster> _monsters;
+	std::vector<Chest> _chests;
 	std::vector<char> _forbiddenTextures;
 	vec2 _playerPosition;
 	vec2 _trapPosition;
@@ -44,6 +46,7 @@ private:
 	// functions for generating content
 	void RespawnPlayerAndTrap();
 	void RespawnMonsters(int monstersNumber);
+	void RespawnLoot();
 	void InitializeForbiddenTextures();
 
 	// funtions for placing floor in the flat
@@ -62,6 +65,9 @@ public:
 
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }
+
+	void setFlatTile(int i, int j, char symbol) { _flat[i][j] = symbol; }
+	void setFlatTile(vec2 position, char symbol) {_flat[position.y][position.x] = symbol; }
 
 	int getNumber() { return _number; }
 
@@ -83,6 +89,4 @@ public:
 
 	int getW() { return _width; }
 	int getH() { return _height; }
-
-
 };

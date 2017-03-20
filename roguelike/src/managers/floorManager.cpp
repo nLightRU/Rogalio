@@ -20,6 +20,10 @@ void FloorManager::initialize(Floor floor)
 		for (int j = 0; j < _width; j++)
 			_flat[i][j] = floor.getFlatTile(i, j);
 
+	for (int i = 0; i < _height; i++)
+		for (int j = 0; j < _width; j++)
+			_floor.setFlatTile(i,j, floor.getFlatTile(i, j));
+
 	_monsters = floor.getMonsters();
 	_monstersNumber = floor.getMonsters().size();
 	_trapPosition = floor.getTrapPosition();
@@ -40,7 +44,7 @@ void FloorManager::PlaceMonsters()
 
 void FloorManager::movePlayer(vec2 position) 
 {
-	if (checkTileIsAMonsterPosition(position)) 
+	if (!checkTile(position)) 
 		return;
 
 	_flat[_playersPosition.y][_playersPosition.x] = _floor.getFlatTile(_playersPosition);
@@ -110,7 +114,10 @@ void FloorManager::hitMonster(int damage, vec2 position)
 			_monsters[i].decreaseHealth(damage);
 
 			if (_monsters[i].getHealth() <= 0)
+			{
+				placePoint(_monsters[i].getPosition(), ' ');
 				_monsters.erase(_monsters.begin() + i);
+			}
 		}
 }
 

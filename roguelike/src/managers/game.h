@@ -1,5 +1,5 @@
 #pragma once
-#include "playerInputManager.h"
+#include "playerInputHandler.h"
 #include "../ASCII graphic/ASCIIcamera.h"
 #include "../units/player.h"
 #include "../structures/dungeon.h"
@@ -12,7 +12,7 @@ private:
 
 	std::vector<char> _forbiddenTextures;
 
-	PlayerInputManager _playerInputManager;
+	PlayerInputHandler _playerInputHandler;
 	Player _player;
 	ASCIICamera _ASCIIcamera;
 	GAME_STATES _state;
@@ -23,8 +23,7 @@ private:
 	void PrintUI();
 	bool MonstersTurn();
 	bool PlayersTurn();
-	
-	bool checkTile(vec2 position);
+
 	int findMonsterOnPosition(vec2 position);
 
 	bool inventoryOpened = false;

@@ -484,6 +484,7 @@ void Floor::InitializeForbiddenTextures()
 {
 	_forbiddenTextures.push_back('#');
 	_forbiddenTextures.push_back('@');
+	_forbiddenTextures.push_back('o');
 
 	bool flag;
 	int index;
@@ -498,3 +499,4 @@ void Floor::InitializeForbiddenTextures()
 		if (!flag) _forbiddenTextures.push_back(_monsters[i].getTexture());
 	}
 }
+
