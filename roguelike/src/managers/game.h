@@ -17,6 +17,7 @@ private:
 	ASCIICamera _ASCIIcamera;
 	GAME_STATES _state;
 	FloorManager _floorManager;
+	Dungeon _dungeon;
 
 	void PrintCamera();
 	void PrintUI();

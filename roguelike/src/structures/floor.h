@@ -20,6 +20,12 @@ private:
 	std::vector<vec2> _ways;
 	std::vector<vec2> _corners;
 
+	// vectors for content
+	std::vector<Monster> _monsters;
+	std::vector<char> _forbiddenTextures;
+
+	vec2 _playerPosition;
+
 	int _number;
 	int _hallsCount = 0;
 
@@ -29,20 +35,26 @@ private:
 
 	Graph _graph;
 
-	// methods for generating floor
+	// funtions for generating floor
 	void GenerateRooms(int numberOfRooms);
+	void GenerateRooms(int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY);
 	void SeparateRooms();
 	void MakeNeighborhoodGraph();
 	void MakeConnections();
 	void ChooseHallsAndCorridors();
+	void InitializeForbiddenTextures();
 
-	// methods for placing floor in the flat
+	// functions for generating content
+	void RespawnPlayer();
+	void RespawnMonsters();
+
+
+	// funtions for placing floor in the flat
 	void PlaceRooms();
 	void PlaceConnections();
 	void PlaceAll();
-	void toFile(std::string FilePath);
 
-	// additional methods for generating floor
+	// additional funtions for generating floor
 	void includeRoomWithPoint(vec2 point);
 	bool checkPointIsADoor(vec2 point);
 	void placePoint(vec2 point, char symbol);
@@ -51,6 +63,7 @@ public:
 	Floor();
 	Floor(int number, int numberOfRooms);
 	Floor(int numberOfRooms, std::string filePath);
+	Floor(int number, int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY);
 
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }
@@ -63,6 +76,7 @@ public:
 	vec2 createRandomPointInHall();
 	bool isPointInAnyRoom(vec2 point);
 	std::vector<vec2> collectPoints();
+	void toFile(std::string FilePath);
 
 	int getW() { return _width; }
 	int getH() { return _height; }

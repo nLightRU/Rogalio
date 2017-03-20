@@ -25,6 +25,15 @@ Floor::Floor(int number, int numberOfRooms)
 	PlaceAll();
 }
 
+Floor::Floor(int number, int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY)
+{
+	GenerateRooms(numberOfRooms, maxWidth, maxHeight, maxX, maxY);
+	SeparateRooms();
+	MakeNeighborhoodGraph();
+	MakeConnections();
+	PlaceAll();
+}
+
 Floor::Floor(int numberOfRooms, std::string filePath)
 {
 	_number = 0;
@@ -47,8 +56,26 @@ void Floor::GenerateRooms(int numberOfRooms)
 	{
 		x = rand() % (150 - 120 + 1) + 120;
 		y = rand() % (150 - 120 + 1) + 120;
-		w = rand() % (15 - 3 + 1) + 3; //15;
-		h = rand() % (15 - 3 + 1) + 3; //15; 
+		w = rand() % (15 - 3 + 1) + 3;
+		h = rand() % (15 - 3 + 1) + 3; 
+
+		if (w / h < 1) continue;
+		_rooms.push_back(Room(x, y, w, h));
+	}
+}
+
+void Floor::GenerateRooms(int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY)
+{
+	srand(time(NULL));
+
+	int w, h, x, y;
+
+	for (int i = 0; i < numberOfRooms; i++)
+	{
+		x = rand() % (maxX - 120 + 1) + 120;
+		y = rand() % (maxY - 120 + 1) + 120;
+		w = rand() % (maxWidth - 3 + 1) + 3;
+		h = rand() % (maxHeight - 3 + 1) + 3; 
 
 		if (w / h < 1) continue;
 		_rooms.push_back(Room(x, y, w, h));

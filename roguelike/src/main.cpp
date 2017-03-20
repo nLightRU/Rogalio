@@ -106,14 +106,7 @@ BACKGROUND_INTENSITY
 
 int main()
 {
-	TextColor(FOREGROUND_GREEN + FOREGROUND_INTENSITY);
-
-	
-	Game game; 
-	game.gameLoop();
-
-	//showAStar();
-	
+	Dungeon dungeon(10);
 
 	system("pause");
 	return 0;
