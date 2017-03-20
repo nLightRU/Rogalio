@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <time.h>
-
 Floor::Floor()
 {
 	_number = 0;
@@ -461,15 +460,15 @@ void Floor::RespawnMonsters(int monstersNumber)
 {
 	srand(time(NULL));
 
-	Monster tempMonster;
+	MonsterInfo info;
+	std::vector<MonsterInfo> listOfMonsters = info.createAllMonsters();
 
 	for (unsigned int i = 0; i < monstersNumber; i++)
 	{
-		int index = rand() % collectPoints().size();
-
-		tempMonster.setPosition(collectPoints()[index]);
-
-		_monsters.push_back(tempMonster);
+		int pointIndex = rand() % collectPoints().size();
+		vec2 position = collectPoints()[pointIndex];
+		int	infoIndex = rand() % listOfMonsters.size();
+		_monsters.push_back(Monster(listOfMonsters[infoIndex], position));
 	}
 }
 
@@ -485,6 +484,18 @@ void Floor::InitializeForbiddenTextures()
 	_forbiddenTextures.push_back('#');
 	_forbiddenTextures.push_back('@');
 	_forbiddenTextures.push_back('o');
+	_forbiddenTextures.push_back('s');
+	_forbiddenTextures.push_back('S');
+	_forbiddenTextures.push_back('3');
+	_forbiddenTextures.push_back('7');
+	_forbiddenTextures.push_back('g');
+	_forbiddenTextures.push_back('G');
+	_forbiddenTextures.push_back('p');
+	_forbiddenTextures.push_back('0');
+	_forbiddenTextures.push_back('r');
+	_forbiddenTextures.push_back('8');
+
+
 
 	bool flag;
 	int index;

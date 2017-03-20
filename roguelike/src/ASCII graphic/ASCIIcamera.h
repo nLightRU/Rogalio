@@ -5,6 +5,7 @@ class ASCIICamera
 {
 private: 
 	const int _buffHeight = 21, _buffWidth = 21;
+	std::vector<char> _monstersTextures;
 	char _buff[21][21];
 public: 
 	ASCIICamera();

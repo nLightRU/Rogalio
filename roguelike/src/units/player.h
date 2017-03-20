@@ -7,6 +7,7 @@ class Player
 private:
 	int _maxHealth, _health, _maxMana,_mana;
 	int _minDamage, _maxDamage;
+	int _currentExp, _expForUpgrade;
 	char _texture = '@';
 	vec2 _position;
 	vec2 _moveDirection;

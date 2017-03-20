@@ -5,6 +5,7 @@
 Game::Game()
 {
 	system("cls");
+	_dungeon = Dungeon(25);
 	_floorManager.initialize(_dungeon.getFloors()[0]);
 	_player.setPosition(_floorManager.getPlayersPosition());
 }
@@ -31,12 +32,11 @@ void Game::gameLoop()
 			std::cout << "You died" << std::endl;
 			break;
 		}
-		PrintCamera();				
-		PrintUI();
+		Render();
 	}
 }  
 
-void Game::PrintCamera()
+void Game::SetCamera()
 {
 	char cameraBuff[21][21];
 
@@ -73,8 +73,6 @@ void Game::PrintCamera()
 		}
 
 	_ASCIIcamera.setBuff(cameraBuff);
-	system("cls");
-	_ASCIIcamera.print();
 }
 
 bool Game::PlayersTurn() 
@@ -102,25 +100,6 @@ bool Game::PlayersTurn()
 	return false;
 }
 
-void Game::PrintUI()
-{
-	std::cout << std::endl;
-	std::cout << "Health " << _player.getHealth() << "/" << _player.getMaxHealth();
-	std::cout << std::endl;
-	std::cout << "Mana " << _player.getMana() << "/" << _player.getMaxMana();
-	std::cout << std::endl;
-	std::cout << "Inventory "; 
-	if (inventoryOpened) std::cout << "opened" << std::endl;
-	else std::cout << "closed" << std::endl;
-	std::cout << "floor " << _dungeon.getCurrentFloorNumber() + 1 << "/";
-	std::cout << _dungeon.getFloors().size() << std::endl;
-	std::cout << "w - up" << std::endl; 
-	std::cout << "a - left" << std::endl;
-	std::cout << "s - down" << std::endl;
-	std::cout << "d - right" << std::endl;
-	std::cout << "p - exit" << std::endl;
-}
-
 bool Game::MonstersTurn() 
 {
 	_player.decreaseHealth(_floorManager.makeMonstersTurn());
@@ -136,4 +115,11 @@ int Game::findMonsterOnPosition(vec2 position)
 			return i;
 
 	return -1;
+}
+
+void Game::Render() 
+{
+	SetCamera();
+	_ASCIIrenderer.setCamera(_ASCIIcamera);
+	_ASCIIrenderer.showGameplayScreen(_player, _dungeon);
 }

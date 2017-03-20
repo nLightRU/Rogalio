@@ -54,7 +54,10 @@
     <ClCompile Include="src\managers\playerInputHandler.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\ASCII graphic\renderer.cpp">
+    <ClCompile Include="src\ASCII graphic\ASCIIrenderer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\data\monsterInfo.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +101,13 @@
     <ClInclude Include="src\managers\playerInputHandler.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="src\ASCII graphic\renderer.h">
+    <ClInclude Include="src\ASCII graphic\ASCIIrenderer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data\monstersDataBase.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data\monsterInfo.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

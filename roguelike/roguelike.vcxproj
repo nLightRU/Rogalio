@@ -143,7 +143,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ASCII graphic\ASCIIcamera.cpp" />
-    <ClCompile Include="src\ASCII graphic\renderer.cpp" />
+    <ClCompile Include="src\ASCII graphic\ASCIIrenderer.cpp" />
+    <ClCompile Include="src\data\monsterInfo.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\floorManager.cpp" />
     <ClCompile Include="src\managers\game.cpp" />
@@ -159,7 +160,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ASCII graphic\ASCIIcamera.h" />
-    <ClInclude Include="src\ASCII graphic\renderer.h" />
+    <ClInclude Include="src\ASCII graphic\ASCIIrenderer.h" />
+    <ClInclude Include="src\data\monsterInfo.h" />
     <ClInclude Include="src\managers\floorManager.h" />
     <ClInclude Include="src\managers\game.h" />
     <ClInclude Include="src\managers\playerInputHandler.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="src\units\chest.h" />
     <ClInclude Include="src\units\item.h" />
     <ClInclude Include="src\units\monster.h" />
+    <ClInclude Include="src\data\monstersDataBase.h" />
     <ClInclude Include="src\units\player.h" />
     <ClInclude Include="src\structures\floor.h" />
     <ClInclude Include="src\structures\room.h" />

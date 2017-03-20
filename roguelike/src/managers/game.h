@@ -1,6 +1,7 @@
 #pragma once
 #include "playerInputHandler.h"
 #include "../ASCII graphic/ASCIIcamera.h"
+#include "../ASCII graphic/ASCIIrenderer.h"
 #include "../units/player.h"
 #include "../structures/dungeon.h"
 #include "floorManager.h"
@@ -14,15 +15,19 @@ private:
 
 	PlayerInputHandler _playerInputHandler;
 	Player _player;
+
 	ASCIICamera _ASCIIcamera;
+	ASCIIRenderer _ASCIIrenderer;
+
 	GAME_STATES _state;
+
 	FloorManager _floorManager;
 	Dungeon _dungeon;
 
-	void PrintCamera();
-	void PrintUI();
+	void SetCamera();
 	bool MonstersTurn();
 	bool PlayersTurn();
+	void Render();
 
 	int findMonsterOnPosition(vec2 position);
 

@@ -38,8 +38,11 @@ void FloorManager::initialize(Floor floor)
 
 void FloorManager::PlaceMonsters() 
 {
-	for (unsigned int i = 0; i < _monsters.size(); i++)
-		_flat[_monsters[i].getPosition().y][_monsters[i].getPosition().x] = _monsters[i].getTexture();
+	for (unsigned int i = 0; i < _monsters.size(); i++) 
+	{
+		vec2 pos = _monsters[i].getPosition();
+		_flat[pos.y][pos.x] = _monsters[i].getTexture();
+	}
 }
 
 void FloorManager::movePlayer(vec2 position) 

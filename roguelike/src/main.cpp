@@ -7,7 +7,7 @@
 #include "math\graph.h"
 #include "managers\game.h"
 #include <Windows.h>
-#include "ASCII graphic\renderer.h"
+#include "ASCII graphic\ASCIIrenderer.h"
 
 //void setTextColor(unsigned char attr)
 //{
@@ -29,12 +29,13 @@ BACKGROUND_INTENSITY
 int main()
 {
 	//setTextColor(FOREGROUND_RED + FOREGROUND_BLUE + FOREGROUND_GREEN );
-	/*Game game;
-	game.gameLoop();*/
 
-	Renderer r;
+	Game game;
+	game.gameLoop();
+
+	/*ASCIIRenderer r;
 	Player player;
-	r.showGameplayScreen(player);
+	r.showGameplayScreen(player);*/
 
 	system("pause");
 	return 0;
