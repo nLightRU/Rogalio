@@ -20,8 +20,7 @@ private:
 
 	void PrintCamera();
 	void PrintUI();
-	void Input();
-	void MonstersTurn();
+	bool MonstersTurn();
 	void PlayersTurn();
 	
 	bool checkTile(vec2 position);

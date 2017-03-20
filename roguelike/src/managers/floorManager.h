@@ -13,6 +13,7 @@ private:
 	char _flat[300][300];
 	vec2 _playersPosition;
 	std::vector<Monster> _monsters;	
+	std::vector<char> _forbiddenTextures;
 
 	int _monstersNumber = 5;
 
@@ -27,6 +28,8 @@ private:
 	void placePoint(int x, int y, char symbol);
 
 	bool checkTileIsAMonsterPosition(vec2 position);
+	bool checkPlayerNear(Monster monster);
+	bool checkTile(vec2 tile);
 public:
 	FloorManager();
 	void movePlayer(vec2 position);

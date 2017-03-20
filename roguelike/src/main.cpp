@@ -45,10 +45,10 @@ void respawnPlayerAndMonster()
 {
 	playersPos.x = rand() % (18 - 1) + 1;
 	playersPos.y = rand() % (18 - 1) + 1;
-	map[playersPos.x][playersPos.y] = '@';
+	map[playersPos.x][playersPos.y] = '2';
 	monsterPos.x = rand() % (18 - 1) + 1;
 	monsterPos.y = rand() % (18 - 1) + 1;
-	map[monsterPos.x][monsterPos.y] = 'm';
+	map[monsterPos.x][monsterPos.y] = 'M';
 }
 
 void printFlat()
@@ -81,13 +81,15 @@ void showAStar()
 	for (unsigned int i = 0; i < path.size(); i++)
 		map[path[i].y][path[i].x] = (char)(49 + i);
 
+	map[playersPos.y][playersPos.x] = '@';
+	map[monsterPos.y][monsterPos.x] = 'm';
+
 	printFlat();
 }
 
 void TextColor(unsigned char attr)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attr);
-	printf("String!");
 }
 
 /*
@@ -104,11 +106,13 @@ BACKGROUND_INTENSITY
 
 int main()
 {
-	//TextColor(FOREGROUND_BLUE + FOREGROUND_GREEN + FOREGROUND_INTENSITY);
+	TextColor(FOREGROUND_GREEN + FOREGROUND_INTENSITY);
 
+	
 	Game game; 
 	game.gameLoop();
 
+	//showAStar();
 	
 
 	system("pause");

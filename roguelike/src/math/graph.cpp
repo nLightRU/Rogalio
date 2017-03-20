@@ -36,6 +36,14 @@ bool Graph::inGraph(vec2 point)
 
 std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 {
+	std::vector<vec2> path;
+
+	if (!inGraph(_goal)) 
+	{
+		path.push_back(_start);
+		return path;
+	}
+
 	vec2 start = _goal; 
 	vec2 goal = _start;
 	std::vector<tile> openedList;
@@ -112,7 +120,6 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 		}
 	}
 
-	std::vector<vec2> path;
 	tile pathTile = closedList[closedList.size() - 1];
 	vec2 point;
 	int indexOfPoint;
@@ -129,5 +136,5 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 vec2 Graph::findPathStep(vec2 start, vec2 goal)
 {
 	std::vector<vec2> path = findPath(start, goal);
-	return path[1];
+	return path[0];
 }

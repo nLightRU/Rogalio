@@ -12,12 +12,19 @@ Game::Game()
 void Game::gameLoop()
 {	
 	std::cout << "Press any key to start game" << std::endl;
+	bool playerDeath;
 	while (_playerInputManager.getInputType() != Exit)
 	{
 		PlayersTurn();
-		MonstersTurn();
+		playerDeath = MonstersTurn();
 		PrintCamera();				
 		PrintUI();
+		if (playerDeath)
+		{
+			system("cls");
+			std::cout << "You died" << std::endl;
+			break;
+		}
 	}
 }  
 
@@ -78,6 +85,11 @@ void Game::PlayersTurn()
 
 	if (findMonsterOnPosition(tile) != -1)
 		_floorManager.hitMonster(_player.makeHit(), tile);
+	else if (checkTile(tile)) 
+		{
+			_player.setPosition(_player.getPosition() + movingDirection);
+			_floorManager.movePlayer(_player.getPosition());
+		}
 }
 
 bool Game::checkTile(vec2 position) 
@@ -105,9 +117,12 @@ void Game::PrintUI()
 	std::cout << "p - exit" << std::endl;
 }
 
-void Game::MonstersTurn() 
+bool Game::MonstersTurn() 
 {
 	_player.decreaseHealth(_floorManager.makeMonstersTurn());
+	if (_player.getHealth() <= 0)
+		return true;
+	return false;
 }
 
 int Game::findMonsterOnPosition(vec2 position) 
