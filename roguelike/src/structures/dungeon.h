@@ -5,12 +5,15 @@ class Dungeon
 private:
 	std::vector<Floor> _floors;
 	int _currentFloorNumber;
-	vec2 _playerPosition; 
 public:
 	Dungeon();
 	Dungeon(int numberOfFloors);
+
 	Floor getCurrentFloor() { return _floors[_currentFloorNumber]; }
+	Floor getNextFloor() { _currentFloorNumber++; return _floors[_currentFloorNumber]; }
+
 	int getCurrentFloorNumber() { return _currentFloorNumber; }
-	void setCurrentFloorNumber(int number) { _currentFloorNumber = number; }
 	std::vector<Floor> getFloors() { return _floors; }
+
+	void setCurrentFloorNumber(int number) { _currentFloorNumber = number; }
 };

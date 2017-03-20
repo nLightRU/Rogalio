@@ -5,8 +5,8 @@
 Game::Game()
 {
 	system("cls");
+	_floorManager.initialize(_dungeon.getFloors()[0]);
 	_player.setPosition(_floorManager.getPlayersPosition());
-	_forbiddenTextures.push_back('#');
 }
 
 void Game::gameLoop()
@@ -15,16 +15,19 @@ void Game::gameLoop()
 	bool playerDeath;
 	while (_playerInputManager.getInputType() != Exit)
 	{
-		PlayersTurn();
-		playerDeath = MonstersTurn();
-		PrintCamera();				
-		PrintUI();
-		if (playerDeath)
+		if (PlayersTurn()) 
+		{
+			_floorManager.initialize(_dungeon.getNextFloor());
+			_player.setPosition(_floorManager.getPlayersPosition());
+		}
+		if (MonstersTurn())
 		{
 			system("cls");
 			std::cout << "You died" << std::endl;
 			break;
 		}
+		PrintCamera();				
+		PrintUI();
 	}
 }  
 
@@ -69,7 +72,7 @@ void Game::PrintCamera()
 	_ASCIIcamera.print();
 }
 
-void Game::PlayersTurn() 
+bool Game::PlayersTurn() 
 {
 	_playerInputManager.input();
 
@@ -85,11 +88,13 @@ void Game::PlayersTurn()
 
 	if (findMonsterOnPosition(tile) != -1)
 		_floorManager.hitMonster(_player.makeHit(), tile);
+	else if (tile == _floorManager.getTrapPosition()) return true;
 	else if (checkTile(tile)) 
 		{
 			_player.setPosition(_player.getPosition() + movingDirection);
 			_floorManager.movePlayer(_player.getPosition());
 		}
+	return false;
 }
 
 bool Game::checkTile(vec2 position) 
@@ -110,6 +115,8 @@ void Game::PrintUI()
 	std::cout << "Inventory "; 
 	if (inventoryOpened) std::cout << "opened" << std::endl;
 	else std::cout << "closed" << std::endl;
+	std::cout << "floor " << _dungeon.getCurrentFloorNumber() + 1 << "/";
+	std::cout << _dungeon.getFloors().size() << std::endl;
 	std::cout << "w - up" << std::endl; 
 	std::cout << "a - left" << std::endl;
 	std::cout << "s - down" << std::endl;

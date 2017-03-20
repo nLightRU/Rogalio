@@ -6,45 +6,30 @@
 
 FloorManager::FloorManager() 
 {
-	for (int i = 0; i < _height; i++)
-		for (int j = 0; j < _width; j++)
-			_flat[i][j] = _flatMap.getFlatTile(i, j);
 
-	std::vector<vec2> points = _flatMap.collectPoints();
-	_floorGraph.addVerticies(points);
-
-	RespawnPlayer();
-	RespawnMonsters();
-	PlaceMonsters();
-
-	_forbiddenTextures.push_back('#');
-	_forbiddenTextures.push_back('m');
-	_forbiddenTextures.push_back('@');
-
-	toFile();
-}	
-
-void FloorManager::RespawnPlayer() 
-{
-	placePoint(_playersPosition, ' ');
-	_playersPosition = _flatMap.getHalls()[0].getCenter();
-	placePoint(_playersPosition, '@');
 }
 
-void FloorManager::RespawnMonsters()
+FloorManager::FloorManager(Floor floor)
 {
-	srand(time(NULL));
+	initialize(floor);
+}
 
-	Monster tempMonster;
+void FloorManager::initialize(Floor floor) 
+{
+	for (int i = 0; i < _height; i++)
+		for (int j = 0; j < _width; j++)
+			_flat[i][j] = floor.getFlatTile(i, j);
 
-	for (unsigned int i = 0; i < _monstersNumber; i++) 
-	{
-		tempMonster.setPosition(_floorGraph.getRandomVertex());
+	_monsters = floor.getMonsters();
+	_monstersNumber = floor.getMonsters().size();
+	_trapPosition = floor.getTrapPosition();
+	_playersPosition = floor.getPlayerPosition();
+	_forbiddenTextures = floor.getForbiddenTextures();
+	_floorGraph.addVerticies(floor.collectPoints());
 
-		_monsters.push_back(tempMonster);
-
-		placePoint(tempMonster.getPosition(), tempMonster.getTexture());
-	}
+	PlaceMonsters();
+	placePoint(_playersPosition, '@');
+	placePoint(_trapPosition, 'o');
 }
 
 void FloorManager::PlaceMonsters() 
@@ -55,11 +40,10 @@ void FloorManager::PlaceMonsters()
 
 void FloorManager::movePlayer(vec2 position) 
 {
-	
 	if (checkTileIsAMonsterPosition(position)) 
 		return;
 
-	_flat[_playersPosition.y][_playersPosition.x] = _flatMap.getFlatTile(_playersPosition);
+	_flat[_playersPosition.y][_playersPosition.x] = _floor.getFlatTile(_playersPosition);
 	_flat[position.y][position.x] = '@';
 	_playersPosition = position;
 }
@@ -67,7 +51,7 @@ void FloorManager::movePlayer(vec2 position)
 void FloorManager::moveMonster(int index, vec2 position)
 {
 	vec2 monstersOldPos = _monsters[index].getPosition();
-	_flat[monstersOldPos.y][monstersOldPos.x] = _flatMap.getFlatTile(monstersOldPos);
+	_flat[monstersOldPos.y][monstersOldPos.x] = _floor.getFlatTile(monstersOldPos);
 	_monsters[index].setPosition(position);
 	_flat[position.y][position.x] = _monsters[index].getTexture();
 }
@@ -97,17 +81,6 @@ int FloorManager::makeMonstersTurn()
 
 	}
 	return damage;
-}
-
-void FloorManager::toFile() 
-{
-	std::ofstream flatMap("flat map.txt");
-	for (int y = 0; y < _height; y++) 
-	{
-		for (int x = 0; x < _width; x++)
-			flatMap << _flat[y][x];
-		flatMap << std::endl;
-	}
 }
 
 void FloorManager::placePoint(vec2 position, char symbol) 

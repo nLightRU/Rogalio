@@ -23,8 +23,8 @@ private:
 	// vectors for content
 	std::vector<Monster> _monsters;
 	std::vector<char> _forbiddenTextures;
-
 	vec2 _playerPosition;
+	vec2 _trapPosition;
 
 	int _number;
 	int _hallsCount = 0;
@@ -33,21 +33,18 @@ private:
 
 	char _flat[300][300];
 
-	Graph _graph;
-
 	// funtions for generating floor
 	void GenerateRooms(int numberOfRooms);
 	void GenerateRooms(int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY);
 	void SeparateRooms();
-	void MakeNeighborhoodGraph();
+	bool MakeNeighborhoodGraph();
 	void MakeConnections();
 	void ChooseHallsAndCorridors();
-	void InitializeForbiddenTextures();
 
 	// functions for generating content
-	void RespawnPlayer();
-	void RespawnMonsters();
-
+	void RespawnPlayerAndTrap();
+	void RespawnMonsters(int monstersNumber);
+	void InitializeForbiddenTextures();
 
 	// funtions for placing floor in the flat
 	void PlaceRooms();
@@ -61,23 +58,31 @@ private:
 	void placePoint(int x, int y, char symbol);
 public:
 	Floor();
-	Floor(int number, int numberOfRooms);
-	Floor(int numberOfRooms, std::string filePath);
 	Floor(int number, int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY);
 
 	char getFlatTile(int i, int j) { return _flat[i][j]; }
 	char getFlatTile(vec2 position) { return _flat[position.y][position.x]; }
 
 	int getNumber() { return _number; }
+
 	int getNumberOfHalls() { return _halls.size(); }
 	std::vector<Room> getHalls() { return _halls; }
 	std::vector<Room> getRooms() { return _rooms; }
 	int getNumberOfRooms() { return _rooms.size(); }
+
 	vec2 createRandomPointInHall();
 	bool isPointInAnyRoom(vec2 point);
 	std::vector<vec2> collectPoints();
+	
+	std::vector<Monster> getMonsters() { return _monsters; }
+	std::vector<char> getForbiddenTextures() { return _forbiddenTextures; }
+	vec2 getPlayerPosition() { return _playerPosition; }
+	vec2 getTrapPosition() { return _trapPosition; }
+
 	void toFile(std::string FilePath);
 
 	int getW() { return _width; }
 	int getH() { return _height; }
+
+
 };

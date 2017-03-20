@@ -106,7 +106,8 @@ BACKGROUND_INTENSITY
 
 int main()
 {
-	Dungeon dungeon(10);
+	Game game;
+	game.gameLoop();
 
 	system("pause");
 	return 0;

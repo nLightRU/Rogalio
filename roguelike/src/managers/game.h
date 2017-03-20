@@ -22,7 +22,7 @@ private:
 	void PrintCamera();
 	void PrintUI();
 	bool MonstersTurn();
-	void PlayersTurn();
+	bool PlayersTurn();
 	
 	bool checkTile(vec2 position);
 	int findMonsterOnPosition(vec2 position);

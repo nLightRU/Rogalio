@@ -8,41 +8,33 @@
 Floor::Floor()
 {
 	_number = 0;
-
 	GenerateRooms(50);
 	SeparateRooms();
-	MakeNeighborhoodGraph();
+	bool flag = MakeNeighborhoodGraph();
 	MakeConnections();
 	PlaceAll();
-}
-
-Floor::Floor(int number, int numberOfRooms)
-{
-	GenerateRooms(numberOfRooms);
-	SeparateRooms();
-	MakeNeighborhoodGraph();
-	MakeConnections();
-	PlaceAll();
+	RespawnPlayerAndTrap();
+	RespawnMonsters(5);
+	InitializeForbiddenTextures();
 }
 
 Floor::Floor(int number, int numberOfRooms, int maxWidth, int maxHeight, int maxX, int maxY)
 {
-	GenerateRooms(numberOfRooms, maxWidth, maxHeight, maxX, maxY);
-	SeparateRooms();
-	MakeNeighborhoodGraph();
-	MakeConnections();
-	PlaceAll();
-}
+	_number = number;
+	bool normallyGenerated = false;
+	while (!normallyGenerated)
+	{
+		srand(time(NULL));
+		GenerateRooms(numberOfRooms, maxWidth, maxHeight, maxX, maxY);
+		SeparateRooms();
+		normallyGenerated = MakeNeighborhoodGraph();
+		MakeConnections();
+	}
 
-Floor::Floor(int numberOfRooms, std::string filePath)
-{
-	_number = 0;
-	GenerateRooms(numberOfRooms);
-	SeparateRooms();
-	MakeNeighborhoodGraph();
-	MakeConnections();
 	PlaceAll();
-	toFile(filePath);
+	RespawnPlayerAndTrap();
+	RespawnMonsters(numberOfRooms / 10);
+	InitializeForbiddenTextures();
 }
 
 void Floor::GenerateRooms(int numberOfRooms)
@@ -51,13 +43,12 @@ void Floor::GenerateRooms(int numberOfRooms)
 
 	int w, h, x, y;
 
-
 	for (int i = 0; i < numberOfRooms; i++)
 	{
 		x = rand() % (150 - 120 + 1) + 120;
 		y = rand() % (150 - 120 + 1) + 120;
 		w = rand() % (15 - 3 + 1) + 3;
-		h = rand() % (15 - 3 + 1) + 3; 
+		h = rand() % (15 - 3 + 1) + 3;
 
 		if (w / h < 1) continue;
 		_rooms.push_back(Room(x, y, w, h));
@@ -75,7 +66,7 @@ void Floor::GenerateRooms(int numberOfRooms, int maxWidth, int maxHeight, int ma
 		x = rand() % (maxX - 120 + 1) + 120;
 		y = rand() % (maxY - 120 + 1) + 120;
 		w = rand() % (maxWidth - 3 + 1) + 3;
-		h = rand() % (maxHeight - 3 + 1) + 3; 
+		h = rand() % (maxHeight - 3 + 1) + 3;
 
 		if (w / h < 1) continue;
 		_rooms.push_back(Room(x, y, w, h));
@@ -155,13 +146,14 @@ void Floor::ChooseHallsAndCorridors()
 		_corridors.push_back(_rooms[i]);
 }
 
-void Floor::MakeNeighborhoodGraph()
+bool Floor::MakeNeighborhoodGraph()
 {
 	ChooseHallsAndCorridors();
 
 	int distance, tempDistance;
 	int joining;
 
+	bool findJoining = false;
 	for (int i = 0; i < _hallsCount; i++)
 	{
 		distance = 99999;
@@ -171,25 +163,38 @@ void Floor::MakeNeighborhoodGraph()
 			if (tempDistance < distance && _halls[j].getParent() != i)
 			{
 				joining = j;
+				findJoining = true;
 				distance = tempDistance;
 			}
 		}
-		_halls[i].setRightJoining(joining);
-		_halls[joining].setParent(i);
 
+		if (findJoining)
+		{
+			_halls[i].setRightJoining(joining);
+			_halls[joining].setParent(i);
+		}
+		else return false;
+
+		findJoining = false;
 		distance = 99999;
 		for (int j = 0; j < _hallsCount; j++)
 		{
 			tempDistance = _halls[i].getCenter().squareDistance(_halls[j].getCenter());
 			if (tempDistance < distance && _halls[j].getParent() != i)
 			{
+				findJoining = true;
 				joining = j;
 				distance = tempDistance;
 			}
 		}
-		_halls[i].setLeftJoining(joining);
-		_halls[joining].setParent(i);
+		if (findJoining)
+		{
+			_halls[i].setLeftJoining(joining);
+			_halls[joining].setParent(i);
+		}
+		else return false;
 	}
+	return true;
 }
 
 void Floor::includeRoomWithPoint(vec2 point)
@@ -393,7 +398,7 @@ void Floor::MakeConnections()
 
 void Floor::PlaceConnections()
 {
-	for (unsigned int i = 0; i < _connections.size(); i++) 
+	for (unsigned int i = 0; i < _connections.size(); i++)
 		placePoint(_connections[i], '#');
 	for (unsigned int i = 0; i < _ways.size(); i++)
 		placePoint(_ways[i], ' ');
@@ -403,7 +408,7 @@ void Floor::PlaceRooms()
 {
 	for (unsigned int i = 0; i < _rooms.size(); i++)
 	{
-		if (_rooms[i].isInclude()) 
+		if (_rooms[i].isInclude())
 		{
 			for (int x = 0; x <= _rooms[i].getW(); x++)
 			{
@@ -415,7 +420,7 @@ void Floor::PlaceRooms()
 				placePoint(_rooms[i].getX(), _rooms[i].getY() + y, '#');
 				placePoint(_rooms[i].getX() + _rooms[i].getW(), _rooms[i].getY() + y, '#');
 			}
-		}	
+		}
 	}
 }
 
@@ -429,14 +434,14 @@ void Floor::PlaceAll()
 	PlaceConnections();
 }
 
-vec2 Floor::createRandomPointInHall() 
+vec2 Floor::createRandomPointInHall()
 {
-	int hallNumber; 
+	int hallNumber;
 	hallNumber = rand() % _hallsCount;
 	return _halls[hallNumber].createRandomPoint();
 }
 
-std::vector<vec2> Floor::collectPoints() 
+std::vector<vec2> Floor::collectPoints()
 {
 	std::vector<vec2> points;
 
@@ -448,6 +453,48 @@ std::vector<vec2> Floor::collectPoints()
 
 	for (unsigned int i = 0; i < _ways.size(); i++)
 		points.push_back(_ways[i]);
-	
+
 	return points;
+}
+
+void Floor::RespawnMonsters(int monstersNumber)
+{
+	srand(time(NULL));
+
+	Monster tempMonster;
+
+	for (unsigned int i = 0; i < monstersNumber; i++)
+	{
+		int index = rand() % collectPoints().size();
+
+		tempMonster.setPosition(collectPoints()[index]);
+
+		_monsters.push_back(tempMonster);
+	}
+}
+
+void Floor::RespawnPlayerAndTrap()
+{
+	_playerPosition = _halls[0].createRandomPoint();
+	int index = rand() % _hallsCount;
+	_trapPosition = _halls[index].createRandomPoint();
+}
+
+void Floor::InitializeForbiddenTextures()
+{
+	_forbiddenTextures.push_back('#');
+	_forbiddenTextures.push_back('@');
+
+	bool flag;
+	int index;
+
+	for (unsigned int i = 0; i < _monsters.size(); i++)
+	{
+		flag = false;
+		for (unsigned int j = 0; j < _forbiddenTextures.size(); j++)
+			if (_forbiddenTextures[j] == _monsters[i].getTexture())
+				flag = true;
+
+		if (!flag) _forbiddenTextures.push_back(_monsters[i].getTexture());
+	}
 }

@@ -38,6 +38,8 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
 {
 	std::vector<vec2> path;
 
+	int countG = 0;
+
 	if (!inGraph(_goal)) 
 	{
 		path.push_back(_start);
@@ -89,6 +91,13 @@ std::vector<vec2> Graph::findPath(vec2 _start, vec2 _goal)
  
 		openedList.erase(openedList.begin() + currentTileIndex);
 		closedList.push_back(currentTile);
+
+		countG++;
+		if (countG == 50) 
+		{
+			path.push_back(_start);
+			return path;
+		}
 
 		tile localityTile;
 		for (int i = 0; i < 4; i++)
