@@ -1,18 +1,15 @@
 #include <iostream>
 #include <stdio.h>
 #include <conio.h>
-#include <time.h>
 #include "math\vec2.h"
-#include "structures\floor.h"
-#include "math\graph.h"
 #include "managers\game.h"
 #include <Windows.h>
-#include "ASCII graphic\ASCIIrenderer.h"
 
-//void setTextColor(unsigned char attr)
-//{
-//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attr);
-//}
+void settTextColor(unsigned char attr)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attr);
+	std::cout << "hello world" << std::endl;
+}
 
 /*
 FOREGROUND_BLUE
@@ -28,14 +25,10 @@ BACKGROUND_INTENSITY
 
 int main()
 {
-	//setTextColor(FOREGROUND_RED + FOREGROUND_BLUE + FOREGROUND_GREEN );
-
+	
 	Game game;
 	game.gameLoop();
 
-	/*ASCIIRenderer r;
-	Player player;
-	r.showGameplayScreen(player);*/
 
 	system("pause");
 	return 0;

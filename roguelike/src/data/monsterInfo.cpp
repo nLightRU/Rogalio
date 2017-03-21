@@ -1,4 +1,5 @@
 #include "monsterInfo.h"
+#include <Windows.h>
 
 MonsterInfo::MonsterInfo() 
 {
@@ -19,6 +20,7 @@ MonsterInfo MonsterInfo::createGoblin()
 	info._maxDamage = 20;
 	info._name = "Goblin";
 	info._texture = 'G';
+	info._color = FOREGROUND_GREEN + FOREGROUND_INTENSITY;
 	return info;
 }
 
@@ -31,6 +33,7 @@ MonsterInfo MonsterInfo::createGremlin()
 	info._maxDamage = 20;
 	info._name = "Gremlin";
 	info._texture = 'g';
+	info._color = FOREGROUND_GREEN;
 	return info;
 }
 
@@ -43,6 +46,7 @@ MonsterInfo MonsterInfo::createRat()
 	info._maxDamage = 20;
 	info._name = "Rat";
 	info._texture = 'r';
+	info._color = FOREGROUND_INTENSITY;
 	return info;
 }
 
@@ -55,6 +59,7 @@ MonsterInfo MonsterInfo::createSkeleton()
 	info._maxDamage = 20;
 	info._name = "Skeleton";
 	info._texture = 'S';
+	info._color = FOREGROUND_BLUE + FOREGROUND_GREEN + FOREGROUND_RED + FOREGROUND_INTENSITY;
 	return info;
 }
 
@@ -67,6 +72,7 @@ MonsterInfo MonsterInfo::createSpider()
 	info._maxDamage = 20;
 	info._name = "Spider";
 	info._texture = '3';
+	info._color = FOREGROUND_GREEN + FOREGROUND_RED;
 	return info;
 }
 
@@ -79,6 +85,7 @@ MonsterInfo MonsterInfo::createZombie()
 	info._maxDamage = 20;
 	info._name = "Zombie";
 	info._texture = '7';
+	info._texture = FOREGROUND_GREEN;
 	return info;
 }
 
@@ -91,6 +98,10 @@ MonsterInfo MonsterInfo::createGolem()
 	info._maxDamage = 20;
 	info._name = "Golem";
 	info._texture = '8';
+	unsigned char attr = FOREGROUND_RED + FOREGROUND_GREEN;
+	for (int i = 0; i < 5; i++)
+		attr += FOREGROUND_BLUE;
+	info._color = attr;
 	return info;
 }
 
@@ -103,6 +114,7 @@ MonsterInfo MonsterInfo::createSlug()
 	info._maxDamage = 20;
 	info._name = "Slug";
 	info._texture = '0';
+	info._color = FOREGROUND_GREEN + FOREGROUND_INTENSITY;
 	return info;
 }
 
@@ -115,6 +127,7 @@ MonsterInfo MonsterInfo::createScorpion()
 	_maxDamage = 20;
 	_name = "Scorpion";
 	_texture = 's';
+	info._color = FOREGROUND_RED + FOREGROUND_BLUE + FOREGROUND_BLUE + FOREGROUND_INTENSITY;
 	return info;
 }
 
@@ -127,6 +140,7 @@ MonsterInfo MonsterInfo::createPython()
 	info._maxDamage = 20;
 	info._name = "Python";
 	info._texture = 'p';
+	info._color = FOREGROUND_RED + FOREGROUND_BLUE + FOREGROUND_BLUE + FOREGROUND_INTENSITY;
 	return info;
 }
 
