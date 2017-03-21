@@ -5,6 +5,7 @@
 #include "../units/player.h"
 #include "../structures/dungeon.h"
 #include "floorManager.h"
+
 enum GAME_STATES {MainMenu, PlayerTurn, MonstersTurn};
 
 class Game

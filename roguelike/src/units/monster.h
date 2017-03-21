@@ -18,6 +18,7 @@ public:
 
 	int getHealth() { return _health; }
 	int getMana() { return _mana; }
+	int getExp() { return _exp; }
 	vec2 getPosition() { return _position; }
 
 	void setHealth(int health);

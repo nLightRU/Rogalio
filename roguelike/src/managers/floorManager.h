@@ -35,7 +35,7 @@ public:
 
 	void movePlayer(vec2 position);
 	int makeMonstersTurn();
-	void hitMonster(int damage, vec2 position);
+	int hitMonster(int damage, vec2 position);
 
 	vec2 getTrapPosition() { return _trapPosition; }
 	vec2 getPlayersPosition() { return _playersPosition; }

@@ -45,6 +45,7 @@ void showExperience(Player player)
 	setTextColor(attr);
 	std::cout << "EXPERIENCE ";
 	setTextColor(FOREGROUND_RED + FOREGROUND_GREEN + FOREGROUND_BLUE);
+	std::cout << player.getExp() << "/" << player.getExpForUpgrade();
 	std::cout << std::endl;
 }
 

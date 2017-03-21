@@ -90,7 +90,7 @@ bool Game::PlayersTurn()
 	vec2 tile = vec2(_player.getPosition() + movingDirection);
 
 	if (findMonsterOnPosition(tile) != -1)
-		_floorManager.hitMonster(_player.makeHit(), tile);
+		_player.increaseExp(_floorManager.hitMonster(_player.makeHit(), tile));
 	else if (tile == _floorManager.getTrapPosition()) return true;
 	else if(_floorManager.checkTile(tile))
 		{

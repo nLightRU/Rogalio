@@ -4,6 +4,6 @@
 
 class Chest 
 {
-	Rarity _rarity;
 	std::vector<Item> _items;
+
 };

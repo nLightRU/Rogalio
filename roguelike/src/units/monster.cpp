@@ -8,6 +8,7 @@ Monster::Monster(MonsterInfo info, vec2 position)
 	_maxMana = info.generateMana();
 	_info.initialize(info);
 	_position = position;
+	_exp = 10;
 }
 
 void Monster::setHealth(int health)

@@ -8,6 +8,7 @@ private:
 	int _maxHealth, _health, _maxMana,_mana;
 	int _minDamage, _maxDamage;
 	int _currentExp, _expForUpgrade;
+	int _level;
 	char _texture = '@';
 	vec2 _position;
 	vec2 _moveDirection;
@@ -19,11 +20,14 @@ public:
 	int getHealth() { return _health; }
 	int getMaxMana() { return _maxMana; }
 	int getMana() { return _mana; }
+	int getExp() { return _currentExp; }
+	int getExpForUpgrade() { return _expForUpgrade; }
 
 	int makeHit() { return rand() % (_maxDamage - _minDamage + 1) + _minDamage; }
 
 	void decreaseHealth(int damage) { _health -= damage; }
 	void decreaseMana(int consumption) { _mana -= consumption; }
+	void increaseExp(int delta);
 
 	void setPosition(vec2 position);
 	void setPosition(int x, int y);

@@ -109,8 +109,9 @@ bool FloorManager::checkTileIsAMonsterPosition(vec2 position)
 	return false;
 }
 
-void FloorManager::hitMonster(int damage, vec2 position) 
+int FloorManager::hitMonster(int damage, vec2 position) 
 {
+	int exp = 0;
 	for (unsigned int i = 0; i < _monsters.size(); i++)
 		if (_monsters[i].getPosition() == position) 
 		{
@@ -119,7 +120,9 @@ void FloorManager::hitMonster(int damage, vec2 position)
 			if (_monsters[i].getHealth() <= 0)
 			{
 				placePoint(_monsters[i].getPosition(), ' ');
+				exp = _monsters[i].getExp();
 				_monsters.erase(_monsters.begin() + i);
+				return exp;
 			}
 		}
 }
